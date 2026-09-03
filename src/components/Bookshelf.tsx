@@ -101,7 +101,7 @@ export default function Bookshelf({ articles }: { articles: Article[] }) {
 
           {rows.map((row, rowIdx) => {
             const isLastRow = rowIdx === rows.length - 1;
-            const needsBookend = isLastRow || row.length < booksPerRow;
+            const needsBookend = true;
             return (
               <div key={rowIdx}>
                 <div className="shelf" role="list">
