@@ -2484,3 +2484,298 @@
     display: none;
   }
 }
+
+/* ═══════════ Case background options (Emerald / Charcoal / Espresso) ═══════════ */
+/* The velvet texture image is shared; these themes recolor it via CSS filters
+   and override the page background variables. The burgundy cushion is a separate
+   image and stays burgundy on every theme. */
+
+/* Charcoal — desaturated near-black velvet */
+.showcase-page[data-velvet="charcoal"] {
+  --sc-bg: #141414;
+  --sc-bg-elevated: #1c1c1c;
+  --sc-overlay-rgb: 18, 18, 18;
+}
+.showcase-page[data-velvet="charcoal"] .sc-hero__velvet,
+.showcase-page[data-velvet="charcoal"] .sc-browse-section__velvet,
+.showcase-page[data-velvet="charcoal"] .sc-case__velvet-img,
+.showcase-page[data-velvet="charcoal"] .sc-gallery__velvet,
+.showcase-page[data-velvet="charcoal"] .sc-modal__velvet {
+  filter: grayscale(1) brightness(0.5) contrast(1.05);
+}
+
+/* Espresso — warm dark brown velvet */
+.showcase-page[data-velvet="espresso"] {
+  --sc-bg: #1c130b;
+  --sc-bg-elevated: #26190f;
+  --sc-overlay-rgb: 28, 19, 11;
+}
+.showcase-page[data-velvet="espresso"] .sc-hero__velvet,
+.showcase-page[data-velvet="espresso"] .sc-browse-section__velvet,
+.showcase-page[data-velvet="espresso"] .sc-case__velvet-img,
+.showcase-page[data-velvet="espresso"] .sc-gallery__velvet,
+.showcase-page[data-velvet="espresso"] .sc-modal__velvet {
+  filter: sepia(1) saturate(1.6) brightness(0.5) contrast(1.02);
+}
+
+/* Background color selector (replaces the old 2-state toggle) */
+.sc-velvet-selector {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid rgba(201, 151, 50, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+.sc-velvet-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 6px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.sc-velvet-swatch:hover { background: rgba(201, 151, 50, 0.08); }
+.sc-velvet-swatch.active {
+  border-color: var(--sc-gold, #C99732);
+  background: rgba(201, 151, 50, 0.12);
+}
+.sc-velvet-swatch__dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 151, 50, 0.6);
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
+}
+.sc-velvet-swatch__label {
+  font-family: var(--font-outfit, sans-serif);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sc-gold, #C99732);
+}
+
+/* ─── Bust / neck-stand prop variant (pendants & necklaces) ─── */
+.sc-comp__image--bust {
+  position: relative;
+  justify-content: center;
+  min-height: 255px;
+}
+.sc-comp__image--bust .sc-comp__cushion {
+  width: 48%;
+  margin-top: 0;
+  position: relative;
+  z-index: 5;
+}
+.sc-comp__image--bust .sc-comp__img {
+  position: absolute;
+  z-index: 6;
+  max-width: 27%;
+  max-height: 96%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ─── Cushion prop variant (rings & flat pieces) — piece rests ON the cushion ─── */
+.sc-comp__image--cushion {
+  position: relative;
+  justify-content: center;
+  min-height: 300px;
+}
+.sc-comp__image--cushion .sc-comp__cushion {
+  position: absolute;
+  z-index: 5;
+  width: 64%;
+  left: 50%;
+  bottom: 14%;
+  transform: translateX(-50%);
+  margin-top: 0;
+}
+.sc-comp__image--cushion .sc-comp__img {
+  position: absolute;
+  z-index: 6;
+  max-width: 33%;
+  max-height: 30%;
+  left: 50%;
+  bottom: 26%;
+  transform: translateX(-50%);
+}
+
+/* ─── Client request: remove diagonal light sweeps + hover movement ─── */
+.sc-case__glass::after,
+.sc-comp::after { display: none !important; }          /* diagonal light streaks */
+.sc-comp:hover::after { animation: none !important; }
+.sc-comp__btn:hover .sc-comp__img {                    /* no movement on hover */
+  transform: none !important;
+  filter:
+    drop-shadow(0 8px 14px rgba(0, 0, 0, 0.9))
+    drop-shadow(0 0 6px rgba(201, 151, 50, 0.08)) !important;
+}
+
+/* remove the static diagonal glass light streaks (base gradient) */
+.sc-case__glass { background: rgba(15, 18, 22, 0.06) !important; }
+
+/* keep the piece centered on hover (so nothing shifts when hovering) */
+.sc-comp__btn:hover .sc-comp__image--bust .sc-comp__img { transform: translate(-50%, -50%) !important; }
+.sc-comp__btn:hover .sc-comp__image--cushion .sc-comp__img { transform: translateX(-50%) !important; }
+
+/* Sparkles, thin beam and drifting sweep stay OFF. */
+.sc-comp__sparkles,
+.sc-comp__spotlight,
+.sc-comp::after { display: none !important; }
+.sc-comp:hover::after { display: none !important; animation: none !important; }
+
+/* HOVER — bulb-type overhead glow lights the piece inside the card. */
+.sc-comp__image::before { display: block !important; opacity: 0 !important; transition: opacity 0.5s ease; }
+.sc-comp:hover .sc-comp__image::before { opacity: 1 !important; }
+
+/* HOVER — golden border glow that stays INSIDE the card (inset only, no outward spill). */
+.sc-comp:hover {
+  border-color: rgba(226, 184, 91, 0.6) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    inset 0 0 55px -8px rgba(226, 184, 91, 0.32),
+    inset 0 0 120px -30px rgba(201, 151, 50, 0.18) !important;
+  transition: box-shadow 0.5s ease, border-color 0.5s ease;
+}
+
+/* ─── Open-box prop (rings in the slot, pendants hanging against the lid) ─── */
+.sc-comp__image--box-ring,
+.sc-comp__image--box-pendant {
+  position: relative;
+  justify-content: center;
+  min-height: 255px;
+}
+.sc-comp__image--box-ring .sc-comp__cushion,
+.sc-comp__image--box-pendant .sc-comp__cushion {
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 62%;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  margin-top: 0;
+}
+/* ring rests in the base slot (lower-centre) */
+.sc-comp__image--box-ring .sc-comp__img {
+  position: absolute;
+  z-index: 6;
+  max-width: 30%;
+  max-height: 24%;
+  left: 50%;
+  bottom: 22%;
+  transform: translateX(-50%);
+}
+/* pendant/necklace hangs against the upright lid (upper-centre) */
+.sc-comp__image--box-pendant .sc-comp__img {
+  position: absolute;
+  z-index: 6;
+  max-width: 34%;
+  max-height: 46%;
+  left: 50%;
+  bottom: 40%;
+  transform: translateX(-50%);
+}
+/* keep box pieces centred on hover (no shift) */
+.sc-comp__btn:hover .sc-comp__image--box-ring .sc-comp__img,
+.sc-comp__btn:hover .sc-comp__image--box-pendant .sc-comp__img { transform: translateX(-50%) !important; }
+
+/* ─── Velvet-drape backdrop (necklace shown against a velvet cloth) ─── */
+.sc-comp__image--velvet {
+  position: relative;
+  justify-content: center;
+  min-height: 300px;
+}
+.sc-comp__image--velvet .sc-comp__cushion {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  z-index: 1;
+  margin-top: 0;
+  border-radius: 4px;
+}
+.sc-comp__image--velvet .sc-comp__img {
+  position: absolute;
+  z-index: 6;
+  max-width: 56%;
+  max-height: 92%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.sc-comp__btn:hover .sc-comp__image--velvet .sc-comp__img { transform: translate(-50%, -50%) !important; }
+
+/* ─── Closed-box prop (necklace draped over a closed velvet box) ─── */
+.sc-comp__image--boxtop {
+  position: relative;
+  justify-content: center;
+  min-height: 300px;
+}
+.sc-comp__image--boxtop .sc-comp__cushion {
+  position: absolute;
+  z-index: 5;
+  width: 66%;
+  left: 50%;
+  bottom: 12%;
+  transform: translateX(-50%);
+  margin-top: 0;
+}
+.sc-comp__image--boxtop .sc-comp__img {
+  position: absolute;
+  z-index: 6;
+  max-width: 46%;
+  max-height: 82%;
+  left: 50%;
+  bottom: 20%;
+  transform: translateX(-50%);
+}
+.sc-comp__btn:hover .sc-comp__image--boxtop .sc-comp__img { transform: translateX(-50%) !important; }
+
+/* ─── Gallery: close-up zoom + client "Front" photo fills the frame ─── */
+.sc-gallery__main { overflow: hidden; }
+.sc-gallery__img.sc-gallery__img--zoom {
+  transform: scale(1.7);
+  transition: transform 0.4s ease;
+}
+.sc-gallery__img.sc-gallery__img--front {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Amazon-style hover-zoom cursor on the close-up */
+.sc-gallery__main--zoomable { cursor: zoom-in; }
+
+/* ─── Dual pricing options + full multi-paragraph description ─── */
+.sc-details__price-options {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 340px;
+}
+.sc-details__price-option {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  color: var(--sc-light-gold, #E2B85B);
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(201, 151, 50, 0.14);
+}
+.sc-details__price-option-label { opacity: 0.82; }
+.sc-details__price-option-value { font-weight: 600; white-space: nowrap; }
+.sc-details__desc p { margin: 0 0 0.7em; }
+.sc-details__desc p:last-child { margin-bottom: 0; }

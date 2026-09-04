@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/showcase.css';
 import ShowcaseCollection from '@/components/ShowcaseCollection';
+import { getShowcaseItems } from '@/data/showcase.server';
 
 export const metadata: Metadata = {
   title: 'The Jewelry Showcase',
@@ -9,10 +10,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function ShowcasePage() {
+export default async function ShowcasePage() {
+  const items = await getShowcaseItems();
   return (
     <main className="showcase-page">
-      <ShowcaseCollection />
+      <ShowcaseCollection items={items} />
     </main>
   );
 }

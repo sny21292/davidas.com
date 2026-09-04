@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
-  SHOWCASE_ITEMS,
   SHOWCASE_CASES,
   SHOWCASE_CATEGORIES,
 } from '@/data/showcase';
@@ -16,6 +15,15 @@ function formatPrice(price: number): string {
 const VELVET_DARK = '/images/showcase/velvet.jpg';
 const VELVET_GREEN = '/images/showcase/green-velvet.png';
 const CUSHION_IMG = '/images/showcase/cushion.png';
+
+// Per-piece display prop, keyed on ShowcaseItem.surface.
+const PROP_IMAGES: Record<string, string> = {
+  cushion: '/images/showcase/cushion.png',
+  bust: '/images/showcase/props/bust.png',
+  'box-ring': '/images/showcase/props/box2.png',
+  velvet: '/images/showcase/infinity-backdrop.png',
+  boxtop: '/images/showcase/props/box-closed.png',
+};
 
 /* ───── Hero ───── */
 function ShowcaseHero({ velvet }: { velvet: string }) {
@@ -120,7 +128,7 @@ function ShowcaseProduct({
         onClick={() => onSelect(item)}
         aria-label={`View ${item.name}`}
       >
-        <div className="sc-comp__image">
+        <div className={`sc-comp__image sc-comp__image--${item.surface}`}>
           <Img
             src={item.image}
             alt={item.name}
@@ -128,7 +136,7 @@ function ShowcaseProduct({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
           <img
-            src={CUSHION_IMG}
+            src={PROP_IMAGES[item.surface] || CUSHION_IMG}
             alt=""
             aria-hidden="true"
             className="sc-comp__cushion"
@@ -285,103 +293,99 @@ function CaseNav({
 }
 
 /* ───── Product Gallery with "From Sketch to Showcase" tabs ───── */
-type CreationTab = 'finished' | 'sketch' | 'bench';
-
-const SKETCH_PLACEHOLDER = '/images/showcase/hero.jpg';
-const BENCH_PLACEHOLDER = '/images/showcase/bench.jpg';
+type CreationTab = 'front' | 'finished' | 'closeup';
 
 function ProductGallery({ item, velvet }: { item: ShowcaseItem; velvet: string }) {
   const [activeTab, setActiveTab] = useState<CreationTab>('finished');
-  const [thumbIndex, setThumbIndex] = useState(0);
-
-  const finishedImages = [item.image];
-  const sketchImg = item.sketchImage || SKETCH_PLACEHOLDER;
-  const benchImg = item.benchImage || BENCH_PLACEHOLDER;
+  const [zoom, setZoom] = useState({ x: 50, y: 50, on: false });
+  const hasFront = !!item.frontImage;
 
   useEffect(() => {
     setActiveTab('finished');
-    setThumbIndex(0);
   }, [item.slug]);
 
-  const displayImage = activeTab === 'sketch'
-    ? sketchImg
-    : activeTab === 'bench'
-      ? benchImg
-      : finishedImages[thumbIndex];
+  // Front = the client's original photo. Finished + Close-up both show our
+  // premium cut-out on velvet (Close-up is the hover-zoom of that premium image).
+  const displayImage = activeTab === 'front' ? item.frontImage : item.image;
+  const showVelvet = activeTab !== 'front';
+
+  // Amazon-style hover-zoom for the Close-up view.
+  const handleZoomMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (activeTab !== 'closeup') return;
+    const r = e.currentTarget.getBoundingClientRect();
+    setZoom({
+      x: ((e.clientX - r.left) / r.width) * 100,
+      y: ((e.clientY - r.top) / r.height) * 100,
+      on: true,
+    });
+  };
+  const handleZoomLeave = () => setZoom((z) => ({ ...z, on: false }));
+
+  const tabs: { key: CreationTab; label: string }[] = [
+    ...(hasFront ? [{ key: 'front' as CreationTab, label: 'Front' }] : []),
+    { key: 'finished' as CreationTab, label: 'Finished Piece' },
+    { key: 'closeup' as CreationTab, label: 'Close-up' },
+  ];
 
   return (
     <div className="sc-gallery">
-      {/* Creation story tabs */}
+      {/* Photography views */}
       <div className="sc-creation-tabs">
-        <span className="sc-creation-tabs__brand">From Sketch to Showcase</span>
+        <span className="sc-creation-tabs__brand">Photography</span>
         <div className="sc-creation-tabs__row">
-          <button
-            className={`sc-creation-tab${activeTab === 'sketch' ? ' active' : ''}`}
-            onClick={() => setActiveTab('sketch')}
-          >
-            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.2">
-              <path d="M14.5 2.5l3 3-10 10H4.5v-3l10-10z" />
-            </svg>
-            Sketch
-          </button>
-          <button
-            className={`sc-creation-tab${activeTab === 'bench' ? ' active' : ''}`}
-            onClick={() => setActiveTab('bench')}
-          >
-            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.2">
-              <circle cx="10" cy="10" r="3" />
-              <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4" />
-            </svg>
-            At the Bench
-          </button>
-          <button
-            className={`sc-creation-tab${activeTab === 'finished' ? ' active' : ''}`}
-            onClick={() => setActiveTab('finished')}
-          >
-            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.2">
-              <path d="M10 2l2.5 5 5.5.8-4 3.9.9 5.3-4.9-2.6-4.9 2.6.9-5.3-4-3.9 5.5-.8z" />
-            </svg>
-            Finished Piece
-          </button>
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              className={`sc-creation-tab${activeTab === t.key ? ' active' : ''}`}
+              onClick={() => setActiveTab(t.key)}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
       </div>
 
       <div className="sc-gallery__frame">
-        <div className="sc-gallery__main">
-          <img
-            src={velvet}
-            alt=""
-            aria-hidden="true"
-            className="sc-gallery__velvet"
-          />
+        <div
+          className={`sc-gallery__main${activeTab === 'closeup' ? ' sc-gallery__main--zoomable' : ''}`}
+          onMouseMove={handleZoomMove}
+          onMouseLeave={handleZoomLeave}
+        >
+          {showVelvet && (
+            <img src={velvet} alt="" aria-hidden="true" className="sc-gallery__velvet" />
+          )}
           <Img
             src={displayImage}
-            alt={activeTab === 'sketch' ? `${item.name} original sketch` : activeTab === 'bench' ? `${item.name} at the jeweler's bench` : item.name}
-            className="sc-gallery__img"
+            alt={activeTab === 'front' ? `${item.name} — original photo` : item.name}
+            className={`sc-gallery__img${activeTab === 'front' ? ' sc-gallery__img--front' : ''}`}
             sizes="(max-width: 640px) 100vw, 500px"
+            style={activeTab === 'closeup' ? {
+              transformOrigin: `${zoom.x}% ${zoom.y}%`,
+              transform: zoom.on ? 'scale(2.8)' : 'scale(1)',
+              transition: zoom.on ? 'transform 0.04s linear' : 'transform 0.3s ease',
+            } : undefined}
           />
           <div className="sc-gallery__glass" />
 
-          {activeTab === 'sketch' && (
-            <span className="sc-gallery__tab-label">Original Design</span>
+          {activeTab === 'front' && (
+            <span className="sc-gallery__tab-label">Original Photo</span>
           )}
-          {activeTab === 'bench' && (
-            <span className="sc-gallery__tab-label">Craftsmanship</span>
+          {activeTab === 'closeup' && (
+            <span className="sc-gallery__tab-label">{zoom.on ? 'Zoomed in' : 'Hover to zoom'}</span>
           )}
         </div>
       </div>
 
-      {/* Thumbnail grid */}
+      {/* Thumbnails: Front (client photo) / Finished (premium) / Close-up */}
       <div className="sc-gallery__thumbs">
         {[
-          { src: item.image, label: 'Front', tab: 'finished' as CreationTab },
-          { src: sketchImg, label: 'Sketch', tab: 'sketch' as CreationTab },
-          { src: benchImg, label: 'Bench', tab: 'bench' as CreationTab },
-          { src: item.image, label: 'Close-up', tab: 'finished' as CreationTab },
-        ].map((t, i) => (
+          ...(hasFront ? [{ src: item.frontImage, label: 'Front', tab: 'front' as CreationTab }] : []),
+          { src: item.image, label: 'Finished', tab: 'finished' as CreationTab },
+          { src: item.image, label: 'Close-up', tab: 'closeup' as CreationTab },
+        ].map((t) => (
           <button
-            key={i}
-            className={`sc-gallery__thumb${activeTab === t.tab && (t.tab !== 'finished' || i === 0) ? ' active' : ''}`}
+            key={t.tab}
+            className={`sc-gallery__thumb${activeTab === t.tab ? ' active' : ''}`}
             onClick={() => setActiveTab(t.tab)}
           >
             <img src={t.src} alt={t.label} className="sc-gallery__thumb-img" />
@@ -396,7 +400,10 @@ function ProductGallery({ item, velvet }: { item: ShowcaseItem; velvet: string }
 /* ───── Video Modal with seamless transition ───── */
 function VideoModal({ item, onClose }: { item: ShowcaseItem; onClose: () => void }) {
   const [ended, setEnded] = useState(false);
-  const videoSrc = item.creationVideo || '/video-files/Jewelry-Repair-Ad.mp4';
+  // A real bench/creation film uses the "creation" wording; a worn/turned clip
+  // uses "in motion". Fall back to the default ad only if neither exists.
+  const isMotion = !item.creationVideo && !!item.motionVideo;
+  const videoSrc = item.creationVideo || item.motionVideo || '/video-files/Jewelry-Repair-Ad.mp4';
 
   useEffect(() => {
     setEnded(false);
@@ -415,7 +422,9 @@ function VideoModal({ item, onClose }: { item: ShowcaseItem; onClose: () => void
         </button>
 
         {!ended && (
-          <p className="sc-video-modal__title">The Creation of {item.name}</p>
+          <p className="sc-video-modal__title">
+            {isMotion ? `${item.name} in Motion` : `The Creation of ${item.name}`}
+          </p>
         )}
 
         <div className="sc-video-modal__inner">
@@ -541,10 +550,22 @@ function ProductModal({
             <p className="sc-details__eyebrow">{item.category}</p>
             <h2 className="sc-details__name">{item.name}</h2>
             <p className="sc-details__price">{formatPrice(item.price)}</p>
+            {item.priceOptions.length > 0 && (
+              <div className="sc-details__price-options">
+                {item.priceOptions.map((o) => (
+                  <div key={o.label} className="sc-details__price-option">
+                    <span className="sc-details__price-option-label">{o.label}</span>
+                    <span className="sc-details__price-option-value">{formatPrice(o.price)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="sc-details__rule" />
-            <p className="sc-details__desc">
-              {item.description.split('\n')[0]}
-            </p>
+            <div className="sc-details__desc">
+              {item.description.split('\n').map((para) => para.trim()).filter(Boolean).map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
 
             {details.length > 0 && (
               <div className="sc-details__specs">
@@ -579,25 +600,31 @@ function ProductModal({
               </button>
             </div>
 
-            <div className="sc-video-cta">
-              <div className="sc-video-cta__icon">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                  <path d="M15 8v8H5V8h10m1-2H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4V7.5l-4 4V7a1 1 0 0 0-1-1z"/>
-                </svg>
+            {(item.motionVideo || item.creationVideo) && (
+              <div className="sc-video-cta">
+                <div className="sc-video-cta__icon">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M15 8v8H5V8h10m1-2H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4V7.5l-4 4V7a1 1 0 0 0-1-1z"/>
+                  </svg>
+                </div>
+                <div className="sc-video-cta__content">
+                  <p className="sc-video-cta__title">
+                    {item.creationVideo ? 'See How This Piece Was Created' : 'See It In Motion'}
+                  </p>
+                  <p className="sc-video-cta__text">
+                    {item.creationVideo
+                      ? 'Watch the 30-second journey from sketch to finished jewelry.'
+                      : 'Watch this finished piece worn and turned in the light.'}
+                  </p>
+                </div>
+                <button className="sc-video-cta__play" onClick={onPlayVideo}>
+                  Play video
+                  <svg viewBox="0 0 16 16" width="10" height="10" fill="currentColor">
+                    <path d="M5 2 L13 8 L5 14 Z" />
+                  </svg>
+                </button>
               </div>
-              <div className="sc-video-cta__content">
-                <p className="sc-video-cta__title">See How This Piece Was Created</p>
-                <p className="sc-video-cta__text">
-                  Watch the 30-second journey from sketch to finished jewelry.
-                </p>
-              </div>
-              <button className="sc-video-cta__play" onClick={onPlayVideo}>
-                Play video
-                <svg viewBox="0 0 16 16" width="10" height="10" fill="currentColor">
-                  <path d="M5 2 L13 8 L5 14 Z" />
-                </svg>
-              </button>
-            </div>
+            )}
 
           </div>
         </div>
@@ -617,44 +644,22 @@ function ProductModal({
   );
 }
 
-/* ───── Velvet Theme Toggle ───── */
-type VelvetTheme = 'green' | 'boutique';
-
-function VelvetToggle({
-  theme,
-  onToggle,
-}: {
-  theme: VelvetTheme;
-  onToggle: () => void;
-}) {
-  return (
-    <button
-      className="sc-velvet-toggle"
-      onClick={onToggle}
-      aria-label={`Switch to ${theme === 'green' ? 'boutique' : 'emerald'} theme`}
-    >
-      <span className={`sc-velvet-toggle__track${theme === 'green' ? ' green' : ''}`}>
-        <span className="sc-velvet-toggle__thumb" />
-      </span>
-      <span className="sc-velvet-toggle__label">
-        {theme === 'green' ? 'Emerald' : 'Boutique'}
-      </span>
-    </button>
-  );
-}
+type VelvetTheme = 'emerald' | 'charcoal' | 'espresso';
 
 /* ───── Main Collection Component ───── */
-export default function ShowcaseCollection() {
+export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeCase, setActiveCase] = useState(1);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
   const [selectedItem, setSelectedItem] = useState<ShowcaseItem | null>(null);
   const [videoOpen, setVideoOpen] = useState(false);
-  const [velvetTheme, setVelvetTheme] = useState<VelvetTheme>('green');
+  const [velvetTheme] = useState<VelvetTheme>('emerald');
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  const heroVelvet = velvetTheme === 'green' ? VELVET_GREEN : '';
-  const caseVelvet = velvetTheme === 'green' ? VELVET_GREEN : VELVET_DARK;
+  // Velvet texture is always the same image; CSS recolors it per theme
+  // (emerald / charcoal / espresso) via filters keyed on [data-velvet].
+  const heroVelvet = VELVET_GREEN;
+  const caseVelvet = VELVET_GREEN;
 
   useEffect(() => {
     const el = document.querySelector('.showcase-page');
@@ -664,9 +669,9 @@ export default function ShowcaseCollection() {
 
   const filteredItems = useMemo(() =>
     activeCategory === 'all'
-      ? SHOWCASE_ITEMS
-      : SHOWCASE_ITEMS.filter((i) => i.category === activeCategory),
-    [activeCategory]
+      ? items
+      : items.filter((i) => i.category === activeCategory),
+    [activeCategory, items]
   );
 
   const handleCategoryChange = useCallback((cat: string) => {
@@ -706,7 +711,7 @@ export default function ShowcaseCollection() {
       <ShowcaseHero velvet={heroVelvet} />
       <section className="sc-browse-section">
         <img
-          src={velvetTheme === 'green' ? VELVET_GREEN : ''}
+          src={VELVET_GREEN}
           alt=""
           aria-hidden="true"
           className="sc-browse-section__velvet"
@@ -727,12 +732,6 @@ export default function ShowcaseCollection() {
           onDotClick={handleDotClick}
         />
       </section>
-      <div className="sc-velvet-toggle-wrap">
-        <VelvetToggle
-          theme={velvetTheme}
-          onToggle={() => setVelvetTheme((t) => (t === 'green' ? 'boutique' : 'green'))}
-        />
-      </div>
       {selectedItem && (
         <ProductModal
           item={selectedItem}
