@@ -326,76 +326,6 @@
   pointer-events: none;
 }
 
-/* ───── Collection Navigation ───── */
-.sc-nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 40px 40px;
-}
-
-.sc-nav__tab {
-  position: relative;
-  background: none;
-  border: none;
-  padding: 0 0 10px;
-  cursor: pointer;
-  font-family: var(--font-body);
-  font-size: 0.625rem;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  transition: color 0.4s, letter-spacing 0.4s;
-}
-
-.sc-nav__tab:hover {
-  color: var(--sc-light-gold);
-  letter-spacing: 0.38em;
-}
-
-.sc-nav__tab.active {
-  color: var(--sc-light-gold);
-}
-
-/* Drop the default blue focus box; keep a subtle on-brand ring for keyboard users. */
-.sc-nav__tab:focus {
-  outline: none;
-}
-
-.sc-nav__tab:focus-visible {
-  outline: 1px solid rgba(201, 151, 50, 0.6);
-  outline-offset: 4px;
-  border-radius: 2px;
-}
-
-.sc-nav__tab::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  opacity: 0;
-  background: linear-gradient(90deg, transparent, var(--sc-gold) 20%, var(--sc-light-gold) 50%, var(--sc-gold) 80%, transparent);
-  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s;
-  box-shadow: 0 0 10px 1px rgba(201, 151, 50, 0.15);
-}
-
-.sc-nav__tab:hover::after {
-  width: 100%;
-  opacity: 0.8;
-}
-
-.sc-nav__tab.active::after {
-  width: 100%;
-  opacity: 1;
-  box-shadow: 0 0 14px 2px rgba(201, 151, 50, 0.25);
-}
-
 /* ───── Display Case Section ───── */
 .sc-display {
   position: relative;
@@ -498,42 +428,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   animation: sc-case-enter 0.7s ease;
-}
-
-/* Gold dividers */
-.sc-case__dividers {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.sc-case__divider-v {
-  position: absolute;
-  top: 16px;
-  bottom: 16px;
-  width: 2px;
-  background: linear-gradient(180deg, transparent, rgba(201, 151, 50, 0.2) 8%, rgba(226, 184, 91, 0.6) 50%, rgba(201, 151, 50, 0.2) 92%, transparent);
-  box-shadow:
-    0 0 6px rgba(201, 151, 50, 0.12),
-    0 0 14px rgba(201, 151, 50, 0.06),
-    -1px 0 0 rgba(255, 255, 255, 0.04),
-    1px 0 0 rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(2px);
-}
-
-.sc-case__divider-h {
-  position: absolute;
-  left: 24px;
-  right: 24px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(201, 151, 50, 0.2) 8%, rgba(226, 184, 91, 0.6) 50%, rgba(201, 151, 50, 0.2) 92%, transparent);
-  box-shadow:
-    0 0 6px rgba(201, 151, 50, 0.12),
-    0 0 14px rgba(201, 151, 50, 0.06),
-    0 -1px 0 rgba(255, 255, 255, 0.04),
-    0 1px 0 rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(2px);
 }
 
 /* Glass sheen — smoky tint + light streaks */
@@ -817,35 +711,6 @@
 .sc-comp__btn:hover .sc-comp__name {
   color: var(--sc-light-gold);
   text-shadow: 0 0 8px rgba(226, 184, 91, 0.2);
-}
-
-.sc-comp__fav {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 0.85rem;
-  color: var(--color-text-dim);
-  opacity: 0.7;
-  transition: color 0.3s, opacity 0.3s;
-  z-index: 26;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 2px;
-}
-
-.sc-comp:hover .sc-comp__fav {
-  opacity: 1;
-  color: var(--sc-light-gold);
-}
-
-.sc-comp__fav.active {
-  opacity: 1;
-  color: #e74c3c;
-}
-
-.sc-comp__fav.active:hover {
-  color: #c0392b;
 }
 
 .sc-comp__image {
@@ -1581,33 +1446,6 @@
   border-color: var(--sc-gold);
   color: var(--sc-light-gold);
   background-color: rgba(201, 151, 50, 0.08);
-}
-
-.sc-btn-heart {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px;
-  border: 1px solid rgba(201, 151, 50, 0.18);
-  background: none;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: border-color 0.3s, color 0.3s;
-}
-
-.sc-btn-heart:hover {
-  border-color: var(--sc-gold);
-  color: var(--sc-gold);
-}
-
-.sc-btn-heart.active {
-  color: #e74c3c;
-  border-color: #e74c3c;
-}
-
-.sc-btn-heart.active:hover {
-  color: #c0392b;
-  border-color: #c0392b;
 }
 
 .sc-view-case-link {
