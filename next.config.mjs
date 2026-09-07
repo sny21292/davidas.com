@@ -34,6 +34,12 @@ const nextConfig = {
       // fragment never reaches the server); handled client-side in /jewelry.
       // Keep the old clean page URLs working:
       { source: '/index.html', destination: '/', permanent: true },
+      // Showcase pieces briefly lived under /jewelry (before moving to their own
+      // /showcase/<slug> pages) — redirect those so nothing 404s.
+      { source: '/jewelry/ladies/pendants/mystic-topaz-pendant', destination: '/showcase/mystic-topaz-pendant', permanent: true },
+      { source: '/jewelry/ladies/pendants/diamond-infinity-necklace', destination: '/showcase/diamond-infinity-necklace', permanent: true },
+      { source: '/jewelry/ladies/rings/amethyst-emerald-ring', destination: '/showcase/amethyst-emerald-ring', permanent: true },
+      { source: '/jewelry/specialty/professional/14k-gold-lineman-pendant', destination: '/showcase/14k-gold-lineman-pendant', permanent: true },
     ];
   },
 };

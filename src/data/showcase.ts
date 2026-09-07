@@ -39,11 +39,3 @@ export const SHOWCASE_CASES: ShowcaseCase[] = [
   { id: 1, name: 'Featured Collection', subtitle: 'Our finest handcrafted pieces' },
   { id: 2, name: 'Specialty Pieces', subtitle: 'Unique custom designs' },
 ];
-
-export const SHOWCASE_CATEGORIES = [
-  { key: 'all', label: 'All' },
-  { key: 'ladies', label: 'Ladies' },
-  { key: 'religious', label: 'Religious' },
-  { key: 'wedding', label: 'Wedding' },
-  { key: 'specialty', label: 'Specialty' },
-];

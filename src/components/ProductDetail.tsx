@@ -109,21 +109,6 @@ export default function ProductDetail({
           <div className="product-detail__style-row">
             <span className="product-detail__style-label">Style #{p.style}</span>
           </div>
-          {typeof p.price === 'number' && (
-            <p className="product-detail__price">${p.price.toLocaleString('en-US')}</p>
-          )}
-          {p.priceOptions && p.priceOptions.length > 0 && (
-            <div className="product-detail__price-options">
-              {p.priceOptions.map((o) => (
-                <div key={o.label} className="product-detail__price-option">
-                  <span>{o.label}</span>
-                  <span className="product-detail__price-option-value">
-                    ${o.price.toLocaleString('en-US')}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
           <button
             className="btn btn--primary product-detail__pricing-btn"
             type="button"
@@ -132,7 +117,7 @@ export default function ProductDetail({
             Click For Pricing
           </button>
           <p className="product-detail__desc">{p.description}</p>
-          {(p.metals || p.sizes || p.karats || p.gemstone || p.collection) && (
+          {(p.metals || p.sizes || p.karats) && (
             <div className="product-detail__specs">
               {p.metals && (
                 <div className="product-detail__spec">
@@ -150,18 +135,6 @@ export default function ProductDetail({
                 <div className="product-detail__spec">
                   <span className="product-detail__spec-label">Karats</span>
                   <span className="product-detail__spec-value">{p.karats}</span>
-                </div>
-              )}
-              {p.gemstone && (
-                <div className="product-detail__spec">
-                  <span className="product-detail__spec-label">Gemstone</span>
-                  <span className="product-detail__spec-value">{p.gemstone}</span>
-                </div>
-              )}
-              {p.collection && (
-                <div className="product-detail__spec">
-                  <span className="product-detail__spec-label">Collection</span>
-                  <span className="product-detail__spec-value">{p.collection}</span>
                 </div>
               )}
             </div>
