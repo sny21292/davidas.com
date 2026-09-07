@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { SHOWCASE_CASES } from '@/data/showcase';
+import Link from 'next/link';
 import type { ShowcaseItem } from '@/data/showcase';
 import Img from '@/components/Img';
 import ShowcaseGallery from '@/components/ShowcaseGallery';
@@ -40,8 +41,8 @@ function ShowcaseHero({ velvet }: { velvet: string }) {
       <div className="sc-hero__grid">
         <div>
           <p className="sc-hero__eyebrow">The Virtual Showcase</p>
-          <h1 className="sc-hero__title">
-            Our
+          <h1 className="sc-hero__title" aria-label="Our Collection">
+            Our{' '}
             <br />
             Collection
           </h1>
@@ -75,34 +76,25 @@ function ShowcaseHero({ velvet }: { velvet: string }) {
 function ShowcaseProduct({
   item,
   index = 0,
-  onSelect,
-  isFavorite,
-  onToggleFavorite,
 }: {
   item: ShowcaseItem;
   index?: number;
-  onSelect: (item: ShowcaseItem) => void;
-  isFavorite: boolean;
-  onToggleFavorite: (slug: string) => void;
 }) {
   return (
     <div className="sc-comp" style={{ '--item-index': index } as React.CSSProperties}>
-      <button
-        className={`sc-comp__fav${isFavorite ? ' active' : ''}`}
-        onClick={(e) => { e.stopPropagation(); onToggleFavorite(item.slug); }}
-        aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-      >
-        {isFavorite ? '♥' : '♡'}
-      </button>
       <div className="sc-comp__spotlight" />
       <div className="sc-comp__sparkles">
         <span className="sc-comp__sparkle" />
         <span className="sc-comp__sparkle" />
         <span className="sc-comp__sparkle" />
       </div>
-      <button
+      {/* Real link to the piece's own /showcase/[slug] page. A soft (in-app) click
+          is intercepted by the @modal parallel route → opens the quick-view modal
+          over the case AND updates the URL. Direct visits / crawlers get the full
+          page. */}
+      <Link
+        href={`/showcase/${item.slug}`}
         className="sc-comp__btn"
-        onClick={() => onSelect(item)}
         aria-label={`View ${item.name}`}
       >
         <div className={`sc-comp__image sc-comp__image--${item.surface}`}>
@@ -124,7 +116,7 @@ function ShowcaseProduct({
           <span className="sc-comp__name">{item.name}</span>
           <span className="sc-comp__price">{formatPrice(item.price)}</span>
         </span>
-      </button>
+      </Link>
     </div>
   );
 }
@@ -133,19 +125,13 @@ function ShowcaseProduct({
 function DisplayCase({
   activeCase,
   items,
-  onSelectItem,
   velvet,
   slideDirection,
-  favorites,
-  onToggleFavorite,
 }: {
   activeCase: number;
   items: ShowcaseItem[];
-  onSelectItem: (item: ShowcaseItem) => void;
   velvet: string;
   slideDirection: 'left' | 'right' | null;
-  favorites: string[];
-  onToggleFavorite: (slug: string) => void;
 }) {
   const caseItems = items.filter((i) => i.caseNumber === activeCase);
 
@@ -177,9 +163,6 @@ function DisplayCase({
                     key={item.slug}
                     item={item}
                     index={idx}
-                    onSelect={onSelectItem}
-                    isFavorite={favorites.includes(item.slug)}
-                    onToggleFavorite={onToggleFavorite}
                   />
                 ))}
               </div>
@@ -250,7 +233,7 @@ function CaseNav({
 }
 
 /* ───── Video Modal with seamless transition ───── */
-function VideoModal({ item, onClose }: { item: ShowcaseItem; onClose: () => void }) {
+export function VideoModal({ item, onClose }: { item: ShowcaseItem; onClose: () => void }) {
   const [ended, setEnded] = useState(false);
   // A real bench/creation film uses the "creation" wording; a worn/turned clip
   // uses "in motion". Fall back to the default ad only if neither exists.
@@ -313,15 +296,13 @@ function VideoModal({ item, onClose }: { item: ShowcaseItem; onClose: () => void
 }
 
 /* ───── Product Modal ───── */
-function ProductModal({
+export function ProductModal({
   item,
   items,
   onClose,
   onPlayVideo,
   onNavigate,
   velvet,
-  isFavorite,
-  onToggleFavorite,
 }: {
   item: ShowcaseItem;
   items: ShowcaseItem[];
@@ -329,8 +310,6 @@ function ProductModal({
   onPlayVideo: () => void;
   onNavigate: (item: ShowcaseItem) => void;
   velvet: string;
-  isFavorite: boolean;
-  onToggleFavorite: (slug: string) => void;
 }) {
   const currentIndex = items.findIndex((i) => i.slug === item.slug);
   const hasPrev = currentIndex > 0;
@@ -432,6 +411,7 @@ function ProductModal({
 
             <div className="sc-details__actions">
               <a href={`/showcase/${item.slug}?inquiry=1`} className="sc-btn-gold">Inquire Now</a>
+              <a href={`/showcase/${item.slug}`} className="sc-btn-outline">View Full Details</a>
               <button
                 className="sc-btn-outline"
                 onClick={() => {
@@ -442,13 +422,6 @@ function ProductModal({
                 }}
               >
                 View Entire Case
-              </button>
-              <button
-                className={`sc-btn-heart${isFavorite ? ' active' : ''}`}
-                onClick={() => onToggleFavorite(item.slug)}
-                aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-              >
-                {isFavorite ? '♥' : '♡'}
               </button>
             </div>
 
@@ -502,10 +475,7 @@ type VelvetTheme = 'emerald' | 'charcoal' | 'espresso';
 export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] }) {
   const [activeCase, setActiveCase] = useState(1);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
-  const [selectedItem, setSelectedItem] = useState<ShowcaseItem | null>(null);
-  const [videoOpen, setVideoOpen] = useState(false);
   const [velvetTheme] = useState<VelvetTheme>('emerald');
-  const [favorites, setFavorites] = useState<string[]>([]);
 
   // Velvet texture is always the same image; CSS recolors it per theme
   // (emerald / charcoal / espresso) via filters keyed on [data-velvet].
@@ -541,16 +511,6 @@ export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] })
     setActiveCase(caseId);
   }, [activeCase]);
 
-  const toggleFavorite = useCallback((slug: string) => {
-    setFavorites((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
-    );
-  }, []);
-
-  const handleModalNavigate = useCallback((item: ShowcaseItem) => {
-    setSelectedItem(item);
-  }, []);
-
   return (
     <>
       <ShowcaseHero velvet={heroVelvet} />
@@ -564,11 +524,8 @@ export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] })
         <DisplayCase
           activeCase={activeCase}
           items={items}
-          onSelectItem={setSelectedItem}
           velvet={caseVelvet}
           slideDirection={slideDirection}
-          favorites={favorites}
-          onToggleFavorite={toggleFavorite}
         />
         {distinctCaseCount > 1 && (
           <CaseNav
@@ -578,19 +535,8 @@ export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] })
           />
         )}
       </section>
-      {selectedItem && (
-        <ProductModal
-          item={selectedItem}
-          items={items}
-          onClose={() => setSelectedItem(null)}
-          onPlayVideo={() => setVideoOpen(true)}
-          onNavigate={handleModalNavigate}
-          velvet={caseVelvet}
-          isFavorite={favorites.includes(selectedItem.slug)}
-          onToggleFavorite={toggleFavorite}
-        />
-      )}
-      {videoOpen && selectedItem && <VideoModal item={selectedItem} onClose={() => setVideoOpen(false)} />}
+      {/* The quick-view modal is now rendered by the @modal parallel route
+          (app/showcase/@modal/(.)[slug]) when a tile is soft-navigated. */}
     </>
   );
 }

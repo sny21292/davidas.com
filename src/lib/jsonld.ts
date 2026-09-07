@@ -1,6 +1,7 @@
 // JSON-LD structured data builders. Emitted via the <JsonLd> component.
 import { SITE, absoluteUrl } from './site';
 import type { Product, Category, Subcategory } from '@/data/products';
+import type { ShowcaseItem } from '@/data/showcase';
 
 // WebSite — used on the homepage for Google sitelinks.
 export function webSiteJsonLd() {
@@ -61,6 +62,59 @@ export function productJsonLd(p: Product, canonicalPath: string) {
       priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
       seller: { '@type': 'Organization', name: SITE.name },
     },
+  };
+}
+
+// Product structured data for a showcase piece. Unlike the catalog (inquiry-only,
+// no price), showcase pieces carry real prices, so we emit proper Offer /
+// AggregateOffer. Price is nullable: if a piece has no price we OMIT the offers
+// block entirely rather than writing price 0 (Google reads 0 as free).
+export function showcaseProductJsonLd(item: ShowcaseItem, canonicalPath: string) {
+  const url = absoluteUrl(canonicalPath);
+  const prices = item.priceOptions.length
+    ? item.priceOptions.map((o) => o.price)
+    : item.price
+      ? [item.price]
+      : [];
+  const validUntil = `${new Date().getFullYear() + 1}-12-31`;
+  const seller = { '@type': 'Organization', name: SITE.name };
+
+  let offers: Record<string, unknown> | undefined;
+  if (prices.length === 1) {
+    offers = {
+      '@type': 'Offer',
+      url,
+      availability: 'https://schema.org/InStock',
+      priceCurrency: 'USD',
+      price: String(prices[0]),
+      priceValidUntil: validUntil,
+      seller,
+    };
+  } else if (prices.length >= 2) {
+    offers = {
+      '@type': 'AggregateOffer',
+      url,
+      availability: 'https://schema.org/InStock',
+      priceCurrency: 'USD',
+      lowPrice: String(Math.min(...prices)),
+      highPrice: String(Math.max(...prices)),
+      offerCount: prices.length,
+      priceValidUntil: validUntil,
+      seller,
+    };
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: item.name,
+    ...(item.style ? { sku: item.style, mpn: item.style } : {}),
+    description: item.description,
+    ...(item.image ? { image: absoluteUrl(item.image) } : {}),
+    url,
+    ...(item.metals ? { material: item.metals } : {}),
+    brand: { '@type': 'Brand', name: SITE.name },
+    ...(offers ? { offers } : {}),
   };
 }
 

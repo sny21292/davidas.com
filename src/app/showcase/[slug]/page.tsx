@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import '@/styles/showcase.css';
 import Breadcrumb from '@/components/Breadcrumb';
+import JsonLd from '@/components/JsonLd';
 import ShowcaseProductDetail from '@/components/ShowcaseProductDetail';
+import { showcaseProductJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
 import { getShowcaseItems } from '@/data/showcase.server';
 
 type Params = { slug: string };
@@ -54,6 +56,16 @@ export default async function ShowcaseProductPage({ params }: { params: Promise<
         />
         <ShowcaseProductDetail item={item} />
       </div>
+
+      <JsonLd
+        data={[
+          showcaseProductJsonLd(item, `/showcase/${item.slug}`),
+          breadcrumbJsonLd([
+            { name: 'Showcase', path: '/showcase' },
+            { name: item.name, path: `/showcase/${item.slug}` },
+          ]),
+        ]}
+      />
     </main>
   );
 }
