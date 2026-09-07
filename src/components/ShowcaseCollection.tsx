@@ -14,11 +14,14 @@ function formatPrice(price: number): string {
 
 const VELVET_DARK = '/images/showcase/velvet.jpg';
 const VELVET_GREEN = '/images/showcase/green-velvet.png';
-const CUSHION_IMG = '/images/showcase/cushion.png';
+// Fallback prop for any piece whose `surface` isn't in PROP_IMAGES. Points to an
+// existing asset (cushion.png was never shipped) so an unknown surface never
+// renders a broken image.
+const CUSHION_IMG = '/images/showcase/props/bust.png';
 
 // Per-piece display prop, keyed on ShowcaseItem.surface.
 const PROP_IMAGES: Record<string, string> = {
-  cushion: '/images/showcase/cushion.png',
+  cushion: '/images/showcase/props/bust.png',
   bust: '/images/showcase/props/bust.png',
   'box-ring': '/images/showcase/props/box2.png',
   velvet: '/images/showcase/infinity-backdrop.png',
