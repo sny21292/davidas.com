@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'The Jewelry Showcase',
   description:
     'Explore our virtual jewelry showcase — browse fine rings, pendants, bracelets, and earrings from Davidas Design Concepts.',
-  robots: { index: false, follow: false },
+  alternates: { canonical: '/showcase' },
 };
 
 export default async function ShowcasePage() {

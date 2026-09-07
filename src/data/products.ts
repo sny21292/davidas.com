@@ -164,6 +164,25 @@ export const PRODUCTS: Product[] = [
     "price": 3195
   },
   {
+    "style": "610-103-S",
+    "name": "14K Gold Lineman Pendant",
+    "category": "specialty",
+    "subcategory": "professional",
+    "description": "A distinctive tribute to the skill, courage, and dedication of the professional lineman, handcrafted in solid 14K gold.\nThe 1.25-inch lineman pendant features detailed dimensional workmanship designed to showcase the character of the piece from every angle.\nShown with a 20-inch, 3 mm solid 14K gold rope chain, finished with a secure lobster clasp. The pendant may also be purchased separately. Pendant available separately in 10K, 14K, and Silver.",
+    "metals": "Solid 14K Gold",
+    "sizes": "",
+    "karats": "14K",
+    "image": "/images/showcase/real/lineman.png",
+    "video": "",
+    "slug": "14k-gold-lineman-pendant",
+    "collection": "Specialty",
+    "price": 6140,
+    "priceOptions": [
+      { "label": "Pendant Only", "price": 1155 },
+      { "label": "Pendant & 20\" Solid Rope Chain", "price": 6140 }
+    ]
+  },
+  {
     "style": "260-105",
     "name": "Mermaid Bracelet",
     "category": "ladies",
@@ -1103,13 +1122,7 @@ export const PRODUCTS: Product[] = [
     "karats": "",
     "image": "/images/Professional/610-103/G.png",
     "video": "https://ijewel.design/embedded?slug=9843fc6&isAutoplay=true&isResetView=false&isPlayCameraViews=false&isPlayAnimations=false",
-    "slug": "lineman-pendant",
-    "collection": "Specialty",
-    "price": 6140,
-    "priceOptions": [
-      { "label": "Pendant Only", "price": 1155 },
-      { "label": "Pendant & 20\" Solid Rope Chain", "price": 6140 }
-    ]
+    "slug": "lineman-pendant"
   },
   {
     "style": "630-101",

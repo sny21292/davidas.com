@@ -41,6 +41,7 @@ export const NOINDEX =
 
 export const NAV_LINKS: { href: string; label: string }[] = [
   { href: '/', label: 'Home' },
+  { href: '/showcase', label: 'Showcase' },
   { href: '/jewelry', label: 'Jewelry' },
   { href: '/services', label: 'Services' },
   { href: '/gems-gemology', label: 'Gems & Gemology' },
