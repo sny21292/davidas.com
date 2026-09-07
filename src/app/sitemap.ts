@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const staticPages = [
-    '', '/jewelry', '/services', '/about', '/contact',
+    '', '/showcase', '/jewelry', '/services', '/about', '/contact',
     '/videos', '/gospel-necklace', '/gems-gemology', '/gem',
   ];
 

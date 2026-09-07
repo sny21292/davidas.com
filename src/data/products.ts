@@ -26,6 +26,11 @@ export interface Product {
   image: string;          // absolute path under /public
   video: string;          // ijewel.design 3D-viewer embed URL
   formHint?: string;      // optional custom inquiry-form label
+  // Optional extra info — shown on the product page only when present (hidden otherwise).
+  gemstone?: string;
+  collection?: string;
+  price?: number;
+  priceOptions?: { label: string; price: number }[];
 }
 
 export const CATEGORIES: Category[] = [
@@ -106,6 +111,77 @@ export const CATEGORIES: Category[] = [
 ];
 
 export const PRODUCTS: Product[] = [
+  {
+    "style": "230-101-S",
+    "name": "10K Yellow Gold Mystic Topaz & Lab-Grown Diamond Pendant",
+    "category": "ladies",
+    "subcategory": "pendants",
+    "description": "A striking 14 x 10mm oval Mystic Topaz takes center stage in this elegant 10K yellow gold pendant, displaying a captivating spectrum of violet, green, blue, and rose hues as it catches the light. Graceful sweeping curves frame the center stone and are accented with 92 round lab-grown diamonds totaling 0.75 carat, adding exceptional brilliance and dimension to the design.\nThe pendant is showcased on a 10K yellow gold, 20-inch, 1.00mm box chain with lobster clasp.",
+    "metals": "10K Yellow Gold",
+    "sizes": "",
+    "karats": "10K",
+    "image": "/images/showcase/real/mystic-topaz.png",
+    "video": "",
+    "slug": "mystic-topaz-pendant",
+    "gemstone": "Mystic Topaz",
+    "collection": "Featured",
+    "price": 3400,
+    "priceOptions": [
+      { "label": "Pendant with 20\" Box Chain", "price": 3400 },
+      { "label": "Pendant Only", "price": 2495 }
+    ]
+  },
+  {
+    "style": "700-101-S",
+    "name": "14K White Gold Diamond Infinity Necklace",
+    "category": "ladies",
+    "subcategory": "pendants",
+    "description": "A timeless symbol of love, devotion, and forever, this elegant infinity necklace is crafted in polished 14K white gold. The graceful infinity design is accented with five genuine round diamonds totaling 0.05 carat, adding just the right touch of brilliance to its classic, understated design.\nThe pendant is finished on a delicate 14K white gold, 18-inch, 0.75mm wheat chain with lobster clasp, creating an elegant necklace perfect for everyday wear or a meaningful gift.",
+    "metals": "14K White Gold",
+    "sizes": "",
+    "karats": "14K",
+    "image": "/images/showcase/real/infinity-v6.png",
+    "video": "",
+    "slug": "diamond-infinity-necklace",
+    "gemstone": "Diamond",
+    "collection": "Featured",
+    "price": 1195
+  },
+  {
+    "style": "700-102-S",
+    "name": "14K Yellow Gold Amethyst, Lab Emerald & Diamond Ring",
+    "category": "ladies",
+    "subcategory": "rings",
+    "description": "A dramatic pairing of rich color and brilliant sparkle makes this 14K yellow gold ring an exceptional statement piece. A genuine 9 x 7mm emerald-cut amethyst is beautifully contrasted by a vivid 9 x 7mm lab-grown emerald, creating a striking combination of deep purple and vibrant green.\nSweeping clusters of lab-grown diamonds totaling 0.94 carat surround the two center stones, adding brilliance, movement, and dimension to the contemporary asymmetrical design.\nA distinctive ring for someone who appreciates bold color, fine craftsmanship, and a design that is anything but ordinary.",
+    "metals": "14K Yellow Gold",
+    "sizes": "",
+    "karats": "14K",
+    "image": "/images/showcase/real/amethyst-ring.png",
+    "video": "",
+    "slug": "amethyst-emerald-ring",
+    "gemstone": "Amethyst, Emerald",
+    "collection": "Featured",
+    "price": 3195
+  },
+  {
+    "style": "610-103-S",
+    "name": "14K Gold Lineman Pendant",
+    "category": "specialty",
+    "subcategory": "professional",
+    "description": "A distinctive tribute to the skill, courage, and dedication of the professional lineman, handcrafted in solid 14K gold.\nThe 1.25-inch lineman pendant features detailed dimensional workmanship designed to showcase the character of the piece from every angle.\nShown with a 20-inch, 3 mm solid 14K gold rope chain, finished with a secure lobster clasp. The pendant may also be purchased separately. Pendant available separately in 10K, 14K, and Silver.",
+    "metals": "Solid 14K Gold",
+    "sizes": "",
+    "karats": "14K",
+    "image": "/images/showcase/real/lineman.png",
+    "video": "",
+    "slug": "14k-gold-lineman-pendant",
+    "collection": "Specialty",
+    "price": 6140,
+    "priceOptions": [
+      { "label": "Pendant Only", "price": 1155 },
+      { "label": "Pendant & 20\" Solid Rope Chain", "price": 6140 }
+    ]
+  },
   {
     "style": "260-105",
     "name": "Mermaid Bracelet",
