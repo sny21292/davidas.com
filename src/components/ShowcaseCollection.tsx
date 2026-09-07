@@ -1,18 +1,15 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import {
-  SHOWCASE_CASES,
-  SHOWCASE_CATEGORIES,
-} from '@/data/showcase';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { SHOWCASE_CASES } from '@/data/showcase';
 import type { ShowcaseItem } from '@/data/showcase';
 import Img from '@/components/Img';
+import ShowcaseGallery from '@/components/ShowcaseGallery';
 
 function formatPrice(price: number): string {
   return '$' + price.toLocaleString('en-US');
 }
 
-const VELVET_DARK = '/images/showcase/velvet.jpg';
 const VELVET_GREEN = '/images/showcase/green-velvet.png';
 // Fallback prop for any piece whose `surface` isn't in PROP_IMAGES. Points to an
 // existing asset (cushion.png was never shipped) so an unknown surface never
@@ -71,29 +68,6 @@ function ShowcaseHero({ velvet }: { velvet: string }) {
         </div>
       </div>
     </section>
-  );
-}
-
-/* ───── Collection Navigation ───── */
-function CollectionNav({
-  active,
-  onChange,
-}: {
-  active: string;
-  onChange: (cat: string) => void;
-}) {
-  return (
-    <nav className="sc-nav">
-      {SHOWCASE_CATEGORIES.map((cat) => (
-        <button
-          key={cat.key}
-          className={`sc-nav__tab${active === cat.key ? ' active' : ''}`}
-          onClick={() => onChange(cat.key)}
-        >
-          {cat.label}
-        </button>
-      ))}
-    </nav>
   );
 }
 
@@ -174,8 +148,6 @@ function DisplayCase({
   onToggleFavorite: (slug: string) => void;
 }) {
   const caseItems = items.filter((i) => i.caseNumber === activeCase);
-  const cols = 4;
-  const rows = Math.ceil(caseItems.length / cols);
 
   const slideClass = slideDirection === 'right'
     ? ' sc-case--slide-right'
@@ -208,24 +180,6 @@ function DisplayCase({
                     onSelect={onSelectItem}
                     isFavorite={favorites.includes(item.slug)}
                     onToggleFavorite={onToggleFavorite}
-                  />
-                ))}
-              </div>
-
-              {/* Gold dividers */}
-              <div className="sc-case__dividers">
-                {Array.from({ length: Math.min(cols, caseItems.length) - 1 }, (_, i) => (
-                  <span
-                    key={`v${i}`}
-                    className="sc-case__divider-v"
-                    style={{ left: `${((i + 1) / Math.min(cols, caseItems.length)) * 100}%` }}
-                  />
-                ))}
-                {Array.from({ length: rows - 1 }, (_, i) => (
-                  <span
-                    key={`h${i}`}
-                    className="sc-case__divider-h"
-                    style={{ top: `${((i + 1) / rows) * 100}%` }}
                   />
                 ))}
               </div>
@@ -291,111 +245,6 @@ function CaseNav({
           <path d="M8 4 L14 10 L8 16" stroke="currentColor" strokeWidth="1.25" />
         </svg>
       </button>
-    </div>
-  );
-}
-
-/* ───── Product Gallery with "From Sketch to Showcase" tabs ───── */
-type CreationTab = 'front' | 'finished' | 'closeup';
-
-function ProductGallery({ item, velvet }: { item: ShowcaseItem; velvet: string }) {
-  const [activeTab, setActiveTab] = useState<CreationTab>('finished');
-  const [zoom, setZoom] = useState({ x: 50, y: 50, on: false });
-  const hasFront = !!item.frontImage;
-
-  useEffect(() => {
-    setActiveTab('finished');
-  }, [item.slug]);
-
-  // Front = the client's original photo. Finished + Close-up both show our
-  // premium cut-out on velvet (Close-up is the hover-zoom of that premium image).
-  const displayImage = activeTab === 'front' ? item.frontImage : item.image;
-  const showVelvet = activeTab !== 'front';
-
-  // Amazon-style hover-zoom for the Close-up view.
-  const handleZoomMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (activeTab !== 'closeup') return;
-    const r = e.currentTarget.getBoundingClientRect();
-    setZoom({
-      x: ((e.clientX - r.left) / r.width) * 100,
-      y: ((e.clientY - r.top) / r.height) * 100,
-      on: true,
-    });
-  };
-  const handleZoomLeave = () => setZoom((z) => ({ ...z, on: false }));
-
-  const tabs: { key: CreationTab; label: string }[] = [
-    ...(hasFront ? [{ key: 'front' as CreationTab, label: 'Front' }] : []),
-    { key: 'finished' as CreationTab, label: 'Finished Piece' },
-    { key: 'closeup' as CreationTab, label: 'Close-up' },
-  ];
-
-  return (
-    <div className="sc-gallery">
-      {/* Photography views */}
-      <div className="sc-creation-tabs">
-        <span className="sc-creation-tabs__brand">Photography</span>
-        <div className="sc-creation-tabs__row">
-          {tabs.map((t) => (
-            <button
-              key={t.key}
-              className={`sc-creation-tab${activeTab === t.key ? ' active' : ''}`}
-              onClick={() => setActiveTab(t.key)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="sc-gallery__frame">
-        <div
-          className={`sc-gallery__main${activeTab === 'closeup' ? ' sc-gallery__main--zoomable' : ''}`}
-          onMouseMove={handleZoomMove}
-          onMouseLeave={handleZoomLeave}
-        >
-          {showVelvet && (
-            <img src={velvet} alt="" aria-hidden="true" className="sc-gallery__velvet" />
-          )}
-          <Img
-            src={displayImage}
-            alt={activeTab === 'front' ? `${item.name} — original photo` : item.name}
-            className={`sc-gallery__img${activeTab === 'front' ? ' sc-gallery__img--front' : ''}`}
-            sizes="(max-width: 640px) 100vw, 500px"
-            style={activeTab === 'closeup' ? {
-              transformOrigin: `${zoom.x}% ${zoom.y}%`,
-              transform: zoom.on ? 'scale(2.8)' : 'scale(1)',
-              transition: zoom.on ? 'transform 0.04s linear' : 'transform 0.3s ease',
-            } : undefined}
-          />
-          <div className="sc-gallery__glass" />
-
-          {activeTab === 'front' && (
-            <span className="sc-gallery__tab-label">Original Photo</span>
-          )}
-          {activeTab === 'closeup' && (
-            <span className="sc-gallery__tab-label">{zoom.on ? 'Zoomed in' : 'Hover to zoom'}</span>
-          )}
-        </div>
-      </div>
-
-      {/* Thumbnails: Front (client photo) / Finished (premium) / Close-up */}
-      <div className="sc-gallery__thumbs">
-        {[
-          ...(hasFront ? [{ src: item.frontImage, label: 'Front', tab: 'front' as CreationTab }] : []),
-          { src: item.image, label: 'Finished', tab: 'finished' as CreationTab },
-          { src: item.image, label: 'Close-up', tab: 'closeup' as CreationTab },
-        ].map((t) => (
-          <button
-            key={t.tab}
-            className={`sc-gallery__thumb${activeTab === t.tab ? ' active' : ''}`}
-            onClick={() => setActiveTab(t.tab)}
-          >
-            <img src={t.src} alt={t.label} className="sc-gallery__thumb-img" />
-            <span className="sc-gallery__thumb-label">{t.label}</span>
-          </button>
-        ))}
-      </div>
     </div>
   );
 }
@@ -546,11 +395,11 @@ function ProductModal({
 
         <div className="sc-modal__grid">
           <div className="sc-modal__left">
-            <ProductGallery item={item} velvet={velvet} />
+            <ShowcaseGallery item={item} velvet={velvet} />
           </div>
 
           <div className="sc-details">
-            <p className="sc-details__eyebrow">{item.category}</p>
+            {item.category && <p className="sc-details__eyebrow">{item.category}</p>}
             <h2 className="sc-details__name">{item.name}</h2>
             <p className="sc-details__price">{formatPrice(item.price)}</p>
             {item.priceOptions.length > 0 && (
@@ -582,7 +431,7 @@ function ProductModal({
             )}
 
             <div className="sc-details__actions">
-              <a href={`/jewelry/${item.category}/${item.subcategory}/${item.slug}?inquiry=1`} className="sc-btn-gold">Inquire Now</a>
+              <a href={`/showcase/${item.slug}?inquiry=1`} className="sc-btn-gold">Inquire Now</a>
               <button
                 className="sc-btn-outline"
                 onClick={() => {
@@ -651,7 +500,6 @@ type VelvetTheme = 'emerald' | 'charcoal' | 'espresso';
 
 /* ───── Main Collection Component ───── */
 export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] }) {
-  const [activeCategory, setActiveCategory] = useState('all');
   const [activeCase, setActiveCase] = useState(1);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
   const [selectedItem, setSelectedItem] = useState<ShowcaseItem | null>(null);
@@ -670,18 +518,12 @@ export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] })
     return () => { el?.removeAttribute('data-velvet'); };
   }, [velvetTheme]);
 
-  const filteredItems = useMemo(() =>
-    activeCategory === 'all'
-      ? items
-      : items.filter((i) => i.category === activeCategory),
-    [activeCategory, items]
+  // How many distinct cases actually hold products. The Previous/Next case
+  // navigation only makes sense with more than one.
+  const distinctCaseCount = useMemo(
+    () => new Set(items.map((i) => i.caseNumber)).size,
+    [items]
   );
-
-  const handleCategoryChange = useCallback((cat: string) => {
-    setActiveCategory(cat);
-    setActiveCase(1);
-    setSlideDirection(null);
-  }, []);
 
   const handleCaseChange = useCallback(
     (direction: 'prev' | 'next') => {
@@ -719,26 +561,27 @@ export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] })
           aria-hidden="true"
           className="sc-browse-section__velvet"
         />
-        <CollectionNav active={activeCategory} onChange={handleCategoryChange} />
         <DisplayCase
           activeCase={activeCase}
-          items={filteredItems}
+          items={items}
           onSelectItem={setSelectedItem}
           velvet={caseVelvet}
           slideDirection={slideDirection}
           favorites={favorites}
           onToggleFavorite={toggleFavorite}
         />
-        <CaseNav
-          activeCase={activeCase}
-          onCaseChange={handleCaseChange}
-          onDotClick={handleDotClick}
-        />
+        {distinctCaseCount > 1 && (
+          <CaseNav
+            activeCase={activeCase}
+            onCaseChange={handleCaseChange}
+            onDotClick={handleDotClick}
+          />
+        )}
       </section>
       {selectedItem && (
         <ProductModal
           item={selectedItem}
-          items={filteredItems}
+          items={items}
           onClose={() => setSelectedItem(null)}
           onPlayVideo={() => setVideoOpen(true)}
           onNavigate={handleModalNavigate}

@@ -2,10 +2,11 @@ import type { MetadataRoute } from 'next';
 import { SITE } from '@/lib/site';
 import { CATEGORIES, PRODUCTS, productPath } from '@/data/products';
 import { ARTICLES } from '@/lib/articles';
+import { getShowcaseItems } from '@/data/showcase.server';
 
 // Generates /sitemap.xml covering every crawlable URL (this is the payoff of
 // giving products real routes instead of hash fragments).
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = SITE.url;
   const now = new Date();
 
@@ -58,6 +59,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'yearly',
       priority: 0.5,
+    });
+  }
+
+  // Showcase pieces (their own /showcase/<slug> pages, from Supabase)
+  const showcaseItems = await getShowcaseItems();
+  for (const s of showcaseItems) {
+    entries.push({
+      url: `${base}/showcase/${s.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+      images: s.image ? [`${base}${s.image}`] : undefined,
     });
   }
 

@@ -22,6 +22,7 @@ export default function Footer() {
             <div className="footer__heading">Explore</div>
             <ul className="footer__links">
               <li><Link href="/">Home</Link></li>
+              <li><Link href="/showcase">Showcase</Link></li>
               <li><Link href="/jewelry">Jewelry</Link></li>
               <li><Link href="/services">Services</Link></li>
               <li><Link href="/gems-gemology">Gems &amp; Gemology</Link></li>

@@ -361,6 +361,17 @@
   color: var(--sc-light-gold);
 }
 
+/* Drop the default blue focus box; keep a subtle on-brand ring for keyboard users. */
+.sc-nav__tab:focus {
+  outline: none;
+}
+
+.sc-nav__tab:focus-visible {
+  outline: 1px solid rgba(201, 151, 50, 0.6);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 .sc-nav__tab::after {
   content: '';
   position: absolute;
@@ -1099,10 +1110,13 @@
   inset: 0;
   z-index: 1100;
   display: flex;
-  align-items: center;
+  /* flex-start (not center) so a modal taller than the screen scrolls from the
+     top instead of clipping its top out of reach. The panel's margin:auto still
+     centers it vertically when it does fit. */
+  align-items: flex-start;
   justify-content: center;
   overflow-y: auto;
-  padding: clamp(3px, 0vw, 16px);
+  padding: clamp(16px, 4vh, 48px) clamp(3px, 0vw, 16px);
   background: rgba(var(--sc-overlay-rgb), 0.85);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -1183,6 +1197,9 @@
   position: relative;
   width: 100%;
   max-width: 1100px;
+  /* Auto vertical margins center the panel when it fits; collapse to 0 when it's
+     taller than the viewport so the top stays reachable via scroll. */
+  margin-block: auto;
   border: 1px solid rgba(201, 151, 50, 0.12);
   background: var(--sc-bg);
   overflow: hidden;
@@ -2779,3 +2796,23 @@
 .sc-details__price-option-value { font-weight: 600; white-space: nowrap; }
 .sc-details__desc p { margin: 0 0 0.7em; }
 .sc-details__desc p:last-child { margin-bottom: 0; }
+
+/* ───── Single showcase-piece page (/showcase/[slug]) ───── */
+.sc-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: start;
+  margin-top: 24px;
+}
+
+.sc-detail__info {
+  padding-top: 8px;
+}
+
+@media (max-width: 820px) {
+  .sc-detail {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
