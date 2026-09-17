@@ -3,9 +3,9 @@ import Link from 'next/link';
 import Img from '@/components/Img';
 
 export const metadata: Metadata = {
-  title: 'About Us — Greensboro, NC',
+  title: 'Custom Jewelry Studio in Greensboro, NC — Since 1995',
   description:
-    'Our story — Davidas Design Concepts began July 8, 1995 as a jewelry repair service center. Quality craftsmanship, CAD technology, and custom design in Greensboro, NC.',
+    'Davidas Design Concepts is a custom jewelry studio in Greensboro, NC offering design, repair, engraving, and appraisals since 1995. CAD/CAM technology meets traditional craftsmanship.',
   alternates: { canonical: '/about' },
 };
 

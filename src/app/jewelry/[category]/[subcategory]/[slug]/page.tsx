@@ -11,8 +11,30 @@ import {
   getProductBySlug,
   productPath,
 } from '@/data/products';
+import type { Product } from '@/data/products';
 
 type Params = { category: string; subcategory: string; slug: string };
+
+function productTitle(p: Product, sub?: { label: string }): string {
+  const parts = [p.name];
+  if (p.metals) parts.push(p.karats ? `${p.karats} ${p.metals}` : p.metals);
+  else if (p.karats) parts.push(p.karats);
+  if (sub) parts.push(sub.label);
+  return parts.join(' | ');
+}
+
+function productMetaDescription(p: Product): string {
+  const specs = [p.metals, p.karats].filter(Boolean).join(', ');
+  const suffix = specs
+    ? ` Available in ${specs}. Handcrafted in Greensboro, NC.`
+    : ' Handcrafted in Greensboro, NC.';
+  const maxIntro = 160 - suffix.length;
+  const firstSentence = p.description.replace(/\s+/g, ' ').trim().split(/\.\s/)[0];
+  const intro = firstSentence.length > maxIntro
+    ? firstSentence.slice(0, maxIntro - 3) + '...'
+    : firstSentence + '.';
+  return intro + suffix;
+}
 
 // Pre-render every product page at build time (SSG) → fully crawlable.
 export function generateStaticParams() {
@@ -29,24 +51,26 @@ export async function generateMetadata(
   const { category, subcategory, slug } = await params;
   const p = getProductBySlug(category, subcategory, slug);
   if (!p) return {};
+  const sub = getSubcategory(category, subcategory);
   const canonical = productPath(p);
-  // First sentence of the description makes a good meta description.
-  const shortDesc = p.description.replace(/\s+/g, ' ').trim().slice(0, 155);
+  const title = productTitle(p, sub ?? undefined);
+  const desc = productMetaDescription(p);
+  const imgAlt = [p.name, p.metals, p.karats].filter(Boolean).join(' — ');
   return {
-    title: `${p.name} — Style #${p.style}`,
-    description: shortDesc,
+    title,
+    description: desc,
     alternates: { canonical },
     openGraph: {
       type: 'website',
-      title: `${p.name} | Davidas Design Concepts`,
-      description: shortDesc,
+      title,
+      description: desc,
       url: canonical,
-      images: [{ url: p.image, alt: p.name }],
+      images: [{ url: p.image, alt: imgAlt }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${p.name} | Davidas Design Concepts`,
-      description: shortDesc,
+      title,
+      description: desc,
       images: [p.image],
     },
   };
