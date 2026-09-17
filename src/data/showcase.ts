@@ -37,5 +37,4 @@ export interface ShowcaseCase {
 
 export const SHOWCASE_CASES: ShowcaseCase[] = [
   { id: 1, name: 'Featured Collection', subtitle: 'Our finest handcrafted pieces' },
-  { id: 2, name: 'Specialty Pieces', subtitle: 'Unique custom designs' },
 ];

@@ -1,4 +1,20 @@
 {
+  "/images/Gents_Pendants/110-103/A.png": {
+    "w": 1447,
+    "h": 1089
+  },
+  "/images/Engagement/410-110/A.png": {
+    "w": 1446,
+    "h": 1566
+  },
+  "/images/Ladies_Rings/210-121/A.png": {
+    "w": 1336,
+    "h": 1229
+  },
+  "/images/Gents_Pendants/530-104/A.png": {
+    "w": 578,
+    "h": 1436
+  },
   "/images/Contact_page/1.JPG": {
     "w": 6000,
     "h": 4000
@@ -750,5 +766,241 @@
   "/images/showcase/real/amethyst-front.jpg": {
     "w": 1400,
     "h": 1400
+  },
+  "/images/showcase/real/radiant-cut-engagement-ring.png": {
+    "w": 1536,
+    "h": 1024
+  },
+  "/images/showcase/real/radiant-cut-engagement-ring-front.jpg": {
+    "w": 1400,
+    "h": 1400
+  },
+  "/images/showcase/real/vintage-filigree-bracelet.png": {
+    "w": 2000,
+    "h": 667
+  },
+  "/images/showcase/real/vintage-filigree-bracelet-front.jpg": {
+    "w": 1400,
+    "h": 430
+  },
+  "/images/showcase/real/initial-pendant.png": {
+    "w": 1122,
+    "h": 1402
+  },
+  "/images/showcase/real/initial-pendant-front.png": {
+    "w": 1120,
+    "h": 1400
+  },
+  "/images/showcase/real/horseshoe-ring.png": {
+    "w": 1511,
+    "h": 1041
+  },
+  "/images/showcase/real/horseshoe-ring-front.jpg": {
+    "w": 1400,
+    "h": 1400
+  },
+  "/images/showcase/real/padparadscha-ring.png": {
+    "w": 1774,
+    "h": 887
+  },
+  "/images/showcase/real/padparadscha-ring-front.jpg": {
+    "w": 1400,
+    "h": 1400
+  },
+  "/images/showcase/real/melancholy-man-pendant.png": {
+    "w": 1024,
+    "h": 1535
+  },
+  "/images/showcase/real/melancholy-man-pendant-front.jpg": {
+    "w": 1400,
+    "h": 1400
+  },
+  "/images/showcase/real/dogwood-cross.png": {
+    "w": 1024,
+    "h": 1536
+  },
+  "/images/showcase/real/dogwood-cross-front.jpg": {
+    "w": 1400,
+    "h": 1400
+  },
+  "/images/showcase/real/rubellite-pendant.png": {
+    "w": 1024,
+    "h": 1536
+  },
+  "/images/showcase/real/rubellite-pendant-front.jpg": {
+    "w": 1400,
+    "h": 1400
+  },
+  "/images/showcase/real/mariner-anchor-chain.png": {
+    "w": 2000,
+    "h": 667
+  },
+  "/images/showcase/real/mariner-anchor-chain-front.jpg": {
+    "w": 1400,
+    "h": 1400
+  },
+  "/images/showcase/real/dogwood-cross/a.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/dogwood-cross/b.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/dogwood-cross/c.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/dogwood-cross/d.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/horseshoe-ring/a.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/horseshoe-ring/b.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/horseshoe-ring/c.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/horseshoe-ring/d.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/horseshoe-ring/e.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/initial-pendant/initals.png": {
+    "w": 1600,
+    "h": 1185
+  },
+  "/images/showcase/real/initial-pendant/model.png": {
+    "w": 1280,
+    "h": 1600
+  },
+  "/images/showcase/real/initial-pendant/s.png": {
+    "w": 1183,
+    "h": 1600
+  },
+  "/images/showcase/real/mariner-anchor-chain/a.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/melancholy-man-pendant/a.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/melancholy-man-pendant/b.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/melancholy-man-pendant/c.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/melancholy-man-pendant/d.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/padparadscha-ring/a.jpg": {
+    "w": 1600,
+    "h": 1066
+  },
+  "/images/showcase/real/padparadscha-ring/b.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/padparadscha-ring/c.jpg": {
+    "w": 1600,
+    "h": 1066
+  },
+  "/images/showcase/real/padparadscha-ring/d.jpg": {
+    "w": 1428,
+    "h": 1600
+  },
+  "/images/showcase/real/padparadscha-ring/e.jpg": {
+    "w": 1600,
+    "h": 1066
+  },
+  "/images/showcase/real/radiant-cut-engagement-ring/1.jpg": {
+    "w": 1600,
+    "h": 1023
+  },
+  "/images/showcase/real/radiant-cut-engagement-ring/2.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/radiant-cut-engagement-ring/3.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/radiant-cut-engagement-ring/4.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/radiant-cut-engagement-ring/5.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/radiant-cut-engagement-ring/model-a.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/rubellite-pendant/a.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/rubellite-pendant/b.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/rubellite-pendant/c.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/rubellite-pendant/d.jpg": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/vintage-filigree-bracelet/a.jpg": {
+    "w": 1600,
+    "h": 492
+  },
+  "/images/showcase/real/vintage-filigree-bracelet/b.jpg": {
+    "w": 1600,
+    "h": 226
+  },
+  "/images/showcase/real/vintage-filigree-bracelet/c.jpg": {
+    "w": 1600,
+    "h": 538
+  },
+  "/images/showcase/real/initial-pendant/a.png": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/initial-pendant/b.png": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/initial-pendant/c.png": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/initial-pendant/k.png": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/initial-pendant/m.png": {
+    "w": 1600,
+    "h": 1600
+  },
+  "/images/showcase/real/initial-pendant/a-flower.png": {
+    "w": 1066,
+    "h": 1600
   }
 }

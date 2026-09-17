@@ -1122,18 +1122,28 @@
 
 /* ───── "From Sketch to Showcase" Creation Tabs ───── */
 .sc-creation-tabs {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 16px;
 }
 
 .sc-creation-tabs__brand {
-  display: block;
   font-family: var(--font-display);
   font-size: 0.7rem;
   font-style: italic;
   letter-spacing: 0.15em;
   color: var(--sc-gold);
   opacity: 0.7;
-  margin-bottom: 10px;
+}
+
+.sc-creation-tabs__active {
+  font-family: var(--font-body);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
 .sc-creation-tabs__row {
@@ -2500,6 +2510,36 @@
   transition: box-shadow 0.5s ease, border-color 0.5s ease;
 }
 
+/* ─── Long open box (bracelets & chains lie across the base slot) ─── */
+.sc-comp__image--long-box {
+  position: relative;
+  justify-content: center;
+  min-height: 255px;
+}
+/* box anchored to the bottom so the open lid rises above */
+.sc-comp__image--long-box .sc-comp__cushion {
+  position: absolute;
+  z-index: 5;
+  width: 94%;
+  left: 50%;
+  bottom: 8%;
+  transform: translateX(-50%);
+  margin-top: 0;
+}
+/* the piece rests INSIDE the box's velvet base tray (lower-middle of the box) */
+.sc-comp__image--long-box .sc-comp__img {
+  position: absolute;
+  z-index: 6;
+  max-width: 75%;
+  max-height: 28%;
+  left: 50%;
+  bottom: 16%;
+  transform: translateX(-50%);
+}
+.sc-comp__btn:hover .sc-comp__image--long-box .sc-comp__img {
+  transform: translateX(-50%) !important;
+}
+
 /* ─── Open-box prop (rings in the slot, pendants hanging against the lid) ─── */
 .sc-comp__image--box-ring,
 .sc-comp__image--box-pendant {
@@ -2605,7 +2645,7 @@
 .sc-gallery__img.sc-gallery__img--front {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
 }
 
 /* Amazon-style hover-zoom cursor on the close-up */
@@ -2653,4 +2693,42 @@
     grid-template-columns: 1fr;
     gap: 28px;
   }
+}
+
+/* Video section at the end of the standalone showcase product page. */
+.sc-detail__video {
+  margin: clamp(48px, 8vw, 88px) auto 0;
+  max-width: 860px;
+  text-align: center;
+}
+
+.sc-detail__video-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--sc-gold);
+  margin-bottom: 10px;
+}
+
+.sc-detail__video-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--color-text);
+  margin-bottom: 22px;
+}
+
+.sc-detail__video-frame {
+  position: relative;
+  border: 1px solid rgba(201, 151, 50, 0.25);
+  background: #000;
+  overflow: hidden;
+}
+
+.sc-detail__video-frame video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
 }

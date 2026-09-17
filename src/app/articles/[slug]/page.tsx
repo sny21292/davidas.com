@@ -5,8 +5,9 @@ import '@/styles/article.css';
 import Img from '@/components/Img';
 import JsonLd from '@/components/JsonLd';
 import { articleJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
-import { ARTICLES, getArticle, articleOgImage } from '@/lib/articles';
+import { articleOgImage } from '@/lib/articles';
 import type { Article } from '@/lib/articles';
+import { getArticles, getArticle } from '@/lib/articles.server';
 
 type Params = { slug: string };
 
@@ -29,6 +30,15 @@ const SEO_TITLES: Record<string, string> = {
   'chrome-tourmaline': 'Chrome Tourmaline: The Rarest Green Tourmaline',
   'fire-opal': 'Mexican Fire Opal: Color, Care & Buying Guide',
   'indicolite': 'Indicolite: The Rare Blue Tourmaline Guide',
+  'american-freshwater-pearl': 'American Freshwater Pearl: Origins & Value Guide',
+  'conch-pearl': 'Conch Pearl: Rarity, Color & Value Guide',
+  'coral': 'Precious Coral: Types, Value & Buying Guide',
+  'east-african-fancy-sapphire': 'East African Fancy Sapphire: Colors & Value',
+  'east-african-ruby': 'East African Ruby: Origin, Quality & Value',
+  'pink-spinel': 'Pink Spinel: Color, Rarity & Value Guide',
+  'rubellite': 'Rubellite Tourmaline: Color, Quality & Value',
+  'tanzanite': 'Tanzanite: Color, Grading & Value Guide',
+  'thai-ruby': 'Thai Ruby: Color, Origin & Market Value',
 };
 
 function articleSeoTitle(a: Article): string {
@@ -45,15 +55,16 @@ function articleMetaDescription(a: Article): string {
 }
 
 // Pre-render every article (SSG) at clean URLs /articles/<id>.
-export function generateStaticParams() {
-  return ARTICLES.map((a) => ({ slug: a.id }));
+export async function generateStaticParams() {
+  const articles = await getArticles();
+  return articles.map((a) => ({ slug: a.id }));
 }
 
 export async function generateMetadata(
   { params }: { params: Promise<Params> }
 ): Promise<Metadata> {
   const { slug } = await params;
-  const a = getArticle(slug);
+  const a = await getArticle(slug);
   if (!a) return { title: 'Article not found' };
   const title = articleSeoTitle(a);
   const desc = articleMetaDescription(a);
@@ -76,7 +87,7 @@ export async function generateMetadata(
 
 export default async function ArticlePage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const a = getArticle(slug);
+  const a = await getArticle(slug);
   if (!a) notFound();
 
   const path = `/articles/${a.id}`;
@@ -107,6 +118,12 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
             dangerouslySetInnerHTML={{ __html: a.content }}
           />
         </div>
+
+        {a.image2 && (
+          <div className="article-page__image-end">
+            <Img src={a.image2} alt={a.title} sizes="(max-width: 700px) 100vw, 640px" />
+          </div>
+        )}
 
         <div className="article-page__footer">
           <Link href="/gems-gemology" className="btn btn--outline">

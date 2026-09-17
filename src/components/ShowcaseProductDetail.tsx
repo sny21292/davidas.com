@@ -72,6 +72,11 @@ export default function ShowcaseProductDetail({ item }: { item: ShowcaseItem }) 
 
   const paragraphs = item.description.split('\n').map((p) => p.trim()).filter(Boolean);
 
+  // Video shown at the end only if the piece actually has one. A real bench film
+  // uses the "creation" wording; a worn/turned clip uses "in motion".
+  const videoSrc = item.creationVideo || item.motionVideo;
+  const isCreation = !!item.creationVideo;
+
   // Price options offered in the form: dual-priced pieces → one choice per option;
   // single-priced → the one price; unpriced → none.
   const priceChoices = item.priceOptions.length
@@ -134,6 +139,20 @@ export default function ShowcaseProductDetail({ item }: { item: ShowcaseItem }) 
           </div>
         </div>
       </div>
+
+      {videoSrc && (
+        <section className="sc-detail__video">
+          <p className="sc-detail__video-eyebrow">
+            {isCreation ? 'The Making Of' : 'See It In Motion'}
+          </p>
+          <h2 className="sc-detail__video-title">
+            {isCreation ? `The Creation of ${item.name}` : `${item.name} in Motion`}
+          </h2>
+          <div className="sc-detail__video-frame">
+            <video src={videoSrc} controls playsInline preload="metadata" />
+          </div>
+        </section>
+      )}
 
       {inquiryOpen && (
         <div

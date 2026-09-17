@@ -22,6 +22,7 @@ const PROP_IMAGES: Record<string, string> = {
   cushion: '/images/showcase/props/bust.png',
   bust: '/images/showcase/props/bust.png',
   'box-ring': '/images/showcase/props/box2.png',
+  'long-box': '/images/showcase/props/long-box.png',
   velvet: '/images/showcase/infinity-backdrop.png',
   boxtop: '/images/showcase/props/box-closed.png',
 };
@@ -114,7 +115,7 @@ function ShowcaseProduct({
         </div>
         <span className="sc-comp__info">
           <span className="sc-comp__name">{item.name}</span>
-          <span className="sc-comp__price">{formatPrice(item.price)}</span>
+          {item.price > 0 && <span className="sc-comp__price">{formatPrice(item.price)}</span>}
         </span>
       </Link>
     </div>
@@ -133,7 +134,8 @@ function DisplayCase({
   velvet: string;
   slideDirection: 'left' | 'right' | null;
 }) {
-  const caseItems = items.filter((i) => i.caseNumber === activeCase);
+  // `items` is already the current slide's set (4 per slide).
+  const caseItems = items;
 
   const slideClass = slideDirection === 'right'
     ? ' sc-case--slide-right'
@@ -181,16 +183,17 @@ function DisplayCase({
 /* ───── Case Navigation ───── */
 function CaseNav({
   activeCase,
+  total,
+  title,
   onCaseChange,
   onDotClick,
 }: {
   activeCase: number;
+  total: number;
+  title: string;
   onCaseChange: (direction: 'prev' | 'next') => void;
   onDotClick: (caseId: number) => void;
 }) {
-  const currentCase = SHOWCASE_CASES.find((c) => c.id === activeCase);
-  const total = SHOWCASE_CASES.length;
-
   return (
     <div className="sc-case-nav">
       <button
@@ -201,18 +204,18 @@ function CaseNav({
         <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
           <path d="M12 4 L6 10 L12 16" stroke="currentColor" strokeWidth="1.25" />
         </svg>
-        Previous case
+        Previous
       </button>
 
       <div className="sc-case-nav__info">
-        <p className="sc-case-nav__title">{currentCase?.name}</p>
+        <p className="sc-case-nav__title">{title}</p>
         <div className="sc-case-nav__dots">
-          {SHOWCASE_CASES.map((c) => (
+          {Array.from({ length: total }, (_, i) => i + 1).map((id) => (
             <button
-              key={c.id}
-              className={`sc-case-nav__dot${c.id === activeCase ? ' active' : ''}`}
-              onClick={() => onDotClick(c.id)}
-              aria-label={`Go to case ${c.id}`}
+              key={id}
+              className={`sc-case-nav__dot${id === activeCase ? ' active' : ''}`}
+              onClick={() => onDotClick(id)}
+              aria-label={`Go to slide ${id}`}
             />
           ))}
         </div>
@@ -223,7 +226,7 @@ function CaseNav({
         onClick={() => onCaseChange('next')}
         disabled={activeCase >= total}
       >
-        Next case
+        Next
         <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
           <path d="M8 4 L14 10 L8 16" stroke="currentColor" strokeWidth="1.25" />
         </svg>
@@ -274,7 +277,7 @@ export function VideoModal({ item, onClose }: { item: ShowcaseItem; onClose: () 
               <div className="sc-video-modal__reveal-info">
                 <h3 className="sc-video-modal__reveal-name">{item.name}</h3>
                 <p className="sc-video-modal__reveal-tag">Designed. Crafted. Finished by Hand.</p>
-                <p className="sc-video-modal__reveal-price">{formatPrice(item.price)}</p>
+                {item.price > 0 && <p className="sc-video-modal__reveal-price">{formatPrice(item.price)}</p>}
                 <button className="sc-video-modal__reveal-btn" onClick={onClose}>
                   Return to Case
                 </button>
@@ -380,7 +383,7 @@ export function ProductModal({
           <div className="sc-details">
             {item.category && <p className="sc-details__eyebrow">{item.category}</p>}
             <h2 className="sc-details__name">{item.name}</h2>
-            <p className="sc-details__price">{formatPrice(item.price)}</p>
+            {item.price > 0 && <p className="sc-details__price">{formatPrice(item.price)}</p>}
             {item.priceOptions.length > 0 && (
               <div className="sc-details__price-options">
                 {item.priceOptions.map((o) => (
@@ -488,22 +491,28 @@ export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] })
     return () => { el?.removeAttribute('data-velvet'); };
   }, [velvetTheme]);
 
-  // How many distinct cases actually hold products. The Previous/Next case
-  // navigation only makes sense with more than one.
-  const distinctCaseCount = useMemo(
-    () => new Set(items.map((i) => i.caseNumber)).size,
-    [items]
-  );
+  // Break the collection into slides of 4 pieces each. Each slide is one
+  // display-case view, paged through with Previous/Next + dots.
+  const PER_SLIDE = 4;
+  const slides = useMemo(() => {
+    const out: ShowcaseItem[][] = [];
+    for (let i = 0; i < items.length; i += PER_SLIDE) {
+      out.push(items.slice(i, i + PER_SLIDE));
+    }
+    return out;
+  }, [items]);
+  const totalSlides = slides.length;
+  const caseTitle = SHOWCASE_CASES[0]?.name ?? 'Featured Collection';
 
   const handleCaseChange = useCallback(
     (direction: 'prev' | 'next') => {
       setSlideDirection(direction === 'next' ? 'right' : 'left');
       setActiveCase((prev) => {
-        if (direction === 'next') return Math.min(prev + 1, SHOWCASE_CASES.length);
+        if (direction === 'next') return Math.min(prev + 1, totalSlides);
         return Math.max(prev - 1, 1);
       });
     },
-    []
+    [totalSlides]
   );
 
   const handleDotClick = useCallback((caseId: number) => {
@@ -523,13 +532,15 @@ export default function ShowcaseCollection({ items }: { items: ShowcaseItem[] })
         />
         <DisplayCase
           activeCase={activeCase}
-          items={items}
+          items={slides[activeCase - 1] ?? []}
           velvet={caseVelvet}
           slideDirection={slideDirection}
         />
-        {distinctCaseCount > 1 && (
+        {totalSlides > 1 && (
           <CaseNav
             activeCase={activeCase}
+            total={totalSlides}
+            title={caseTitle}
             onCaseChange={handleCaseChange}
             onDotClick={handleDotClick}
           />

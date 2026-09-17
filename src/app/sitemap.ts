@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { SITE } from '@/lib/site';
 import { CATEGORIES, PRODUCTS, productPath } from '@/data/products';
-import { ARTICLES } from '@/lib/articles';
+import { getArticles } from '@/lib/articles.server';
 import { getShowcaseItems } from '@/data/showcase.server';
 
 // Generates /sitemap.xml covering every crawlable URL (this is the payoff of
@@ -52,8 +52,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
-  // Articles
-  for (const a of ARTICLES) {
+  // Articles (from Supabase)
+  const articles = await getArticles();
+  for (const a of articles) {
     entries.push({
       url: `${base}/articles/${a.id}`,
       lastModified: now,
