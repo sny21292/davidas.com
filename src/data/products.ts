@@ -107,6 +107,58 @@ export const CATEGORIES: Category[] = [
 
 export const PRODUCTS: Product[] = [
   {
+    "style": "110-103",
+    "name": "Equestrian Horse Pendant",
+    "category": "gents",
+    "subcategory": "pendants",
+    "description": "Capture the beauty, strength, and graceful spirit of the horse with this beautifully detailed equestrian pendant.  Sculpted in a flowing, lifelike pose, the design features elegant movement throughout the mane, tail, and body, creating a striking piece for horse lovers, riders, and equestrian enthusiasts alike.\nMeasuring approximately 1.4 inches tall by 1.9 inches long, this pendant has an impressive presence while remaining comfortable for everyday wear.  Its polished dimensional design reflects the light beautifully and showcases the craftsmanship from every angle.\nAvailable in your choice of gold or sterling silver, this horse pendant makes a wonderful personal keepsake or a distinctive gift for anyone with a lifelong love of horses.",
+    "metals": "Gold, Sterling Silver",
+    "sizes": "",
+    "karats": "",
+    "image": "/images/Gents_Pendants/110-103/A.png",
+    "video": "https://ijewel.design/embedded?slug=0b85452&isAutoplay=true&isResetView=false&isPlayCameraViews=false&isPlayAnimations=false",
+    "slug": "equestrian-horse-pendant"
+  },
+  {
+    "style": "410-110",
+    "name": "Two-Carat Diamond Engagement Ring",
+    "category": "wedding",
+    "subcategory": "engagement",
+    "description": "Make your proposal unforgettable with an engagement ring designed to be as distinctive as the love it represents.  This breathtaking design features a magnificent 1.50 carat center diamond, elevated above an intricate arrangement of sparkling accent stones that bring brilliance and character to the ring from every angle.\nThe flowing, sculptural setting is accented with .50-carats total weight of diamonds or vivid accent gems, creating a beautiful contrast of color and brilliance.  Delicate leaf-inspired details and graceful sweeping lines give the ring an almost organic quality, while the polished metal adds warmth and richness to the design.\nWith a total gemstone weight of 2.00 carats, this is far from an ordinary engagement ring.  It combines the timeless beauty of a diamond solitaire with artistic detailing that is elegant, romantic, and truly one of a kind.\nFor the woman who wants something beyond the traditional solitaire, this extraordinary engagement ring offers classic brilliance with an artistic, nature-inspired personality all its own.",
+    "metals": "",
+    "sizes": "",
+    "karats": "",
+    "image": "/images/Engagement/410-110/A.png",
+    "video": "https://ijewel.design/embedded?slug=27c780c&isAutoplay=true&isResetView=false&isPlayCameraViews=false&isPlayAnimations=false",
+    "slug": "two-carat-diamond-engagement-ring"
+  },
+  {
+    "style": "210-121",
+    "name": "Tahitian Pearl & Gemstone Statement Ring",
+    "category": "ladies",
+    "subcategory": "rings",
+    "description": "Bold, luxurious, and unmistakably distinctive, this Tahitian Pearl Ring showcases the dramatic natural beauty of dark Tahitian pearls in a contemporary design.  A magnificent central Tahitian pearl creates the commanding focal point, complemented by additional Tahitian pearls positioned along the shoulders for a beautifully balanced presentation.\nSweeping ribbons of precious metal curve around the pearls, creating an elegant dimensional setting accented with .75 carat total weight of sparkling accent gemstones.  The pavé-style arrangement follows the flowing contours of the ring, adding exceptional brilliance while providing a striking contrast against the deep charcoal and peacock tones characteristic of Tahitian pearls.\nDesigned as a true statement piece, the ring combines the exotic beauty of Tahitian pearls with the brilliance of fine gemstones and the richness of polished precious metal.  From every angle, its sculptural construction reveals another detail, making it as much a work of jewelry art as it is a luxurious pearl ring.",
+    "metals": "",
+    "sizes": "",
+    "karats": "",
+    "image": "/images/Ladies_Rings/210-121/A.png",
+    "video": "https://ijewel.design/embedded?slug=d9672ba&isAutoplay=true&isResetView=false&isPlayCameraViews=false&isPlayAnimations=false",
+    "slug": "tahitian-pearl-gemstone-statement-ring"
+  },
+  {
+    "style": "530-104",
+    "name": "Mermaid Pendant",
+    "category": "gents",
+    "subcategory": "pendants",
+    "description": "Capture the mystery and beauty of the sea with this beautifully sculpted Mermaid Pendant.  The design features an elegant mermaid with flowing hair, graceful contours, and a richly detailed scaled tail, creating a striking three-dimensional piece with character from every angle.\nAvailable in your choice of gold or sterling silver, the pendant combines artistic detail with fine-jewelry craftsmanship.  The polished finish highlights the mermaid’s flowing form while the textured scales and tail add depth and dimension to the design.\nPerfect for anyone who loves the ocean, nautical themes, or distinctive jewelry, this mermaid is more than simply a pendant - it is a wearable piece of art symbolizing beauty, freedom, mystery, and the spirit of the sea.",
+    "metals": "Gold, Sterling Silver",
+    "sizes": "",
+    "karats": "",
+    "image": "/images/Gents_Pendants/530-104/A.png",
+    "video": "https://ijewel.design/embedded?slug=8bf7e56&isAutoplay=true&isResetView=false&isPlayCameraViews=false&isPlayAnimations=false",
+    "slug": "mermaid-pendant"
+  },
+  {
     "style": "260-105",
     "name": "Mermaid Bracelet",
     "category": "ladies",

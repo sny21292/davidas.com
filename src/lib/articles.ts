@@ -1,6 +1,9 @@
-import raw from '@/data/articles.json';
 import { SITE } from './site';
 
+// Client-safe article types + helpers. Article data now lives in Supabase and is
+// fetched server-side (see articles.server.ts) — this file must NOT import the
+// database client so it can be imported by client components (e.g. Bookshelf)
+// for the type only.
 export interface Article {
   id: string;
   title: string;
@@ -10,17 +13,7 @@ export interface Article {
   excerpt: string;
   content: string; // HTML
   image: string; // may be empty
-}
-
-// Normalize image paths to absolute /public paths. Empty stays empty so the
-// article page can hide the image (matches original behavior).
-export const ARTICLES: Article[] = (raw as Article[]).map((a) => ({
-  ...a,
-  image: a.image ? (a.image.startsWith('/') ? a.image : '/' + a.image) : '',
-}));
-
-export function getArticle(id: string): Article | undefined {
-  return ARTICLES.find((a) => a.id === id);
+  image2: string; // optional second image, shown at the end; may be empty
 }
 
 // Image to use for social/OG/JSON-LD — falls back to the site image.

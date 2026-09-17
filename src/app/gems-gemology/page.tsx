@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/bookshelf.css';
 import Bookshelf from '@/components/Bookshelf';
-import { ARTICLES } from '@/lib/articles';
+import { getArticles } from '@/lib/articles.server';
 
 export const metadata: Metadata = {
   title: 'Gems & Gemology',
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/gems-gemology' },
 };
 
-// Ported from gems-gemology.html — articles come from data/articles.json.
-export default function GemsGemologyPage() {
-  return <Bookshelf articles={ARTICLES} />;
+// Articles come from Supabase (fetched at build time).
+export default async function GemsGemologyPage() {
+  const articles = await getArticles();
+  return <Bookshelf articles={articles} />;
 }
