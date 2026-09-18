@@ -14,13 +14,13 @@ export default async function ProtectedAdminLayout({
 }) {
   // If Supabase isn't configured in this environment (e.g. a Vercel preview with
   // no env vars), show a clear message instead of a server-side exception.
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
     return (
       <div className="admin-denied">
         <h1>Admin not configured</h1>
         <p>
-          This environment is missing <code>NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
-          <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>. Add them to enable the admin.
+          This environment is missing <code>SUPABASE_URL</code> and{' '}
+          <code>SUPABASE_ANON_KEY</code>. Add them to enable the admin.
         </p>
       </div>
     );

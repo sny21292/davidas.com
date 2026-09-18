@@ -93,3 +93,37 @@ export async function signOut() {
   await supabase.auth.signOut();
   redirect('/admin/login');
 }
+
+// Server-side sign in — keeps the Supabase keys off the browser entirely.
+export async function signIn(formData: FormData) {
+  const email = String(formData.get('email') ?? '').trim();
+  const password = String(formData.get('password') ?? '');
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    redirect(`/admin/login?error=${encodeURIComponent(error.message)}`);
+  }
+  redirect('/admin');
+}
+
+// Server-side image upload to Supabase Storage. Called from the editor's image
+// fields; the file is sent to the server and uploaded with the admin's session
+// (RLS enforces admin-only writes). Returns the public URL.
+export async function uploadImage(
+  formData: FormData,
+): Promise<{ url?: string; error?: string }> {
+  const file = formData.get('file');
+  if (!(file instanceof File) || file.size === 0) return { error: 'No file selected.' };
+
+  const supabase = await createClient();
+  const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+  const path = `articles/${crypto.randomUUID()}.${ext}`;
+
+  const { error } = await supabase.storage
+    .from('article-images')
+    .upload(path, file, { cacheControl: '31536000', upsert: false });
+  if (error) return { error: error.message };
+
+  const { data } = supabase.storage.from('article-images').getPublicUrl(path);
+  return { url: data.publicUrl };
+}

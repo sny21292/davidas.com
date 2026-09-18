@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { uploadImage } from '@/app/admin/actions';
 
 // Image picker for the article editor: upload a file straight to Supabase Storage
 // (bucket `article-images`) and keep its public URL, or paste an existing path.
@@ -31,17 +31,13 @@ export default function ImageField({
     setUploading(true);
     setError('');
     try {
-      const supabase = createClient();
-      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
-      const path = `articles/${crypto.randomUUID()}.${ext || 'jpg'}`;
-      const { error: upErr } = await supabase.storage
-        .from('article-images')
-        .upload(path, file, { cacheControl: '31536000', upsert: false });
-      if (upErr) throw upErr;
-      const { data } = supabase.storage.from('article-images').getPublicUrl(path);
-      setValue(data.publicUrl);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Upload failed');
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await uploadImage(fd);
+      if (res.error) setError(res.error);
+      else if (res.url) setValue(res.url);
+    } catch {
+      setError('Upload failed');
     } finally {
       setUploading(false);
       e.target.value = '';

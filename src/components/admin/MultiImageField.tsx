@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { uploadImage } from '@/app/admin/actions';
 
 function previewSrc(v: string): string {
   if (!v) return '';
@@ -30,21 +30,17 @@ export default function MultiImageField({
     setUploading(true);
     setError('');
     try {
-      const supabase = createClient();
       const uploaded: string[] = [];
       for (const file of files) {
-        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const path = `articles/${crypto.randomUUID()}.${ext || 'jpg'}`;
-        const { error: upErr } = await supabase.storage
-          .from('article-images')
-          .upload(path, file, { cacheControl: '31536000', upsert: false });
-        if (upErr) throw upErr;
-        const { data } = supabase.storage.from('article-images').getPublicUrl(path);
-        uploaded.push(data.publicUrl);
+        const fd = new FormData();
+        fd.append('file', file);
+        const res = await uploadImage(fd);
+        if (res.error) { setError(res.error); continue; }
+        if (res.url) uploaded.push(res.url);
       }
-      setList((l) => [...l, ...uploaded]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Upload failed');
+      if (uploaded.length) setList((l) => [...l, ...uploaded]);
+    } catch {
+      setError('Upload failed');
     } finally {
       setUploading(false);
       e.target.value = '';
