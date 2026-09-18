@@ -22,7 +22,11 @@ export type Database = {
           excerpt: string | null
           id: string
           image: string | null
-          image2: string | null
+          image2: string[] | null
+          meta_title: string | null
+          meta_description: string | null
+          og_image: string | null
+          meta_keywords: string | null
           sort_order: number
           tag: string | null
           title: string
@@ -34,7 +38,11 @@ export type Database = {
           excerpt?: string | null
           id: string
           image?: string | null
-          image2?: string | null
+          image2?: string[] | null
+          meta_title?: string | null
+          meta_description?: string | null
+          og_image?: string | null
+          meta_keywords?: string | null
           sort_order?: number
           tag?: string | null
           title: string
@@ -46,7 +54,11 @@ export type Database = {
           excerpt?: string | null
           id?: string
           image?: string | null
-          image2?: string | null
+          image2?: string[] | null
+          meta_title?: string | null
+          meta_description?: string | null
+          og_image?: string | null
+          meta_keywords?: string | null
           sort_order?: number
           tag?: string | null
           title?: string

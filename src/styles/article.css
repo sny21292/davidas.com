@@ -114,21 +114,26 @@
   color: var(--color-text-dim);
 }
 
-/* Optional second image, shown full-width after the article body. Clears the
-   floated top image so it always sits below the text. */
-.article-page__image-end {
+/* Optional image gallery, shown after the article body. Clears the floated top
+   image so it always sits below the text. One image = full width; several = grid. */
+.article-page__gallery {
   clear: both;
   margin: var(--space-lg) auto 0;
-  max-width: 640px;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-md);
 }
 
-.article-page__image-end img {
+.article-page__gallery-item {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.article-page__gallery-item img {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 4px;
 }
 
 .article-page__footer {

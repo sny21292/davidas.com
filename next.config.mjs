@@ -8,6 +8,9 @@ const nextConfig = {
   // Ported static prose contains apostrophes/ampersands that trip
   // react/no-unescaped-entities. TypeScript type-checking still runs on build.
   eslint: { ignoreDuringBuilds: true },
+  // Admin image uploads go through a Server Action (browser → server → Supabase
+  // Storage), so raise the default 1 MB action body limit.
+  serverActions: { bodySizeLimit: '10mb' },
   // Imagery is served from /public via the <Img> wrapper (next/image). Serve
   // modern formats (AVIF first, then WebP) for large byte savings on the big PNGs.
   images: {
