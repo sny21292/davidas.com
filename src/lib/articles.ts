@@ -12,11 +12,15 @@ export interface Article {
   date: string;
   excerpt: string;
   content: string; // HTML
-  image: string; // may be empty
-  image2: string; // optional second image, shown at the end; may be empty
+  image: string; // main image; may be empty
+  image2: string[]; // optional gallery, shown at the end; may be empty
+  metaTitle: string; // optional SEO <title>; may be empty
+  metaDescription: string; // optional meta description; may be empty
+  ogImage: string; // optional social image; may be empty
+  metaKeywords: string; // optional comma-separated keywords; may be empty
 }
 
-// Image to use for social/OG/JSON-LD — falls back to the site image.
+// Image to use for social/OG/JSON-LD — dedicated OG image, else main, else site.
 export function articleOgImage(a: Article): string {
-  return a.image || SITE.ogImage;
+  return a.ogImage || a.image || SITE.ogImage;
 }

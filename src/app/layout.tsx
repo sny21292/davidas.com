@@ -1,10 +1,7 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Outfit } from 'next/font/google';
 import '@/styles/style.css';
-import Nav from '@/components/Nav';
-import Footer from '@/components/Footer';
-import MetaPixel from '@/components/MetaPixel';
-import ScrollReveal from '@/components/ScrollReveal';
+import SiteFrame from '@/components/SiteFrame';
 import JsonLd from '@/components/JsonLd';
 import { SITE, NOINDEX } from '@/lib/site';
 import { localBusinessJsonLd } from '@/lib/jsonld';
@@ -89,12 +86,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>
-        <MetaPixel />
         <JsonLd data={localBusinessJsonLd()} />
-        <Nav />
-        {children}
-        <Footer />
-        <ScrollReveal />
+        <SiteFrame>{children}</SiteFrame>
       </body>
     </html>
   );
