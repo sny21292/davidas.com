@@ -8,10 +8,13 @@ import type { ShowcaseItem } from '@/data/showcase';
 const VELVET_GREEN = '/images/showcase/green-velvet.png';
 
 // Renders the quick-view modal for the @modal intercepting route. Reuses the
-// existing ProductModal/VideoModal so prev/next, video and favorites all work.
-// Close = router.back(); prev/next = soft-navigate to the sibling slug (which the
-// interceptor picks up again). The `.showcase-page` wrapper (display:contents so
-// it adds no box) carries the --sc-* CSS variables the modal styling needs, since
+// existing ProductModal/VideoModal so prev/next and video all work.
+// Close = router.back(); prev/next = router.replace to the sibling slug (which the
+// interceptor picks up again). Using replace (not push) means paging through
+// pieces does NOT stack history entries, so the X button (router.back) always
+// closes straight back to /showcase instead of stepping backward through every
+// piece the visitor viewed. The `.showcase-page` wrapper (display:contents so it
+// adds no box) carries the --sc-* CSS variables the modal styling needs, since
 // the @modal slot lives outside the page's own `.showcase-page` element.
 export default function ShowcaseRouteModal({
   item,
@@ -25,7 +28,7 @@ export default function ShowcaseRouteModal({
 
   const close = useCallback(() => router.back(), [router]);
   const navigate = useCallback(
-    (it: ShowcaseItem) => router.push(`/showcase/${it.slug}`),
+    (it: ShowcaseItem) => router.replace(`/showcase/${it.slug}`),
     [router],
   );
 
