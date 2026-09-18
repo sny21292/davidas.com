@@ -11,8 +11,15 @@ export default function AdminLoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const configured =
+    !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!configured) {
+      setError('Admin is not configured in this environment (missing Supabase keys).');
+      return;
+    }
     setLoading(true);
     setError('');
     const supabase = createClient();
