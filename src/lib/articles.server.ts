@@ -11,6 +11,23 @@ export function getArticles(): Promise<Article[]> {
   return _cache;
 }
 
+// Normalize an image reference to an absolute /public path; empty stays empty.
+function normalizeImage(v: unknown): string {
+  if (typeof v !== 'string' || !v) return '';
+  return v.startsWith('/') ? v : '/' + v;
+}
+
+// image2 may be a plain string (legacy) or a text[] array (gallery). Coerce to a
+// single image string here so this branch's article page keeps working either
+// way — takes the first non-empty entry of an array.
+function firstImage(v: unknown): string {
+  if (Array.isArray(v)) {
+    const first = v.find((x) => typeof x === 'string' && x);
+    return normalizeImage(first);
+  }
+  return normalizeImage(v);
+}
+
 async function fetchArticles(): Promise<Article[]> {
   const { data, error } = await supabase
     .from('articles')
@@ -25,10 +42,8 @@ async function fetchArticles(): Promise<Article[]> {
     date: a.date ?? '',
     excerpt: a.excerpt ?? '',
     content: a.content ?? '',
-    // Normalize to an absolute /public path; empty stays empty so the article
-    // page can hide the image (matches the original static behavior).
-    image: a.image ? (a.image.startsWith('/') ? a.image : '/' + a.image) : '',
-    image2: a.image2 ? (a.image2.startsWith('/') ? a.image2 : '/' + a.image2) : '',
+    image: normalizeImage(a.image),
+    image2: firstImage(a.image2),
   }));
 }
 
