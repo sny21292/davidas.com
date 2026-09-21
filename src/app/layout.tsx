@@ -4,6 +4,7 @@ import '@/styles/style.css';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import MetaPixel from '@/components/MetaPixel';
+import GoogleAds from '@/components/GoogleAds';
 import ScrollReveal from '@/components/ScrollReveal';
 import JsonLd from '@/components/JsonLd';
 import { SITE, NOINDEX } from '@/lib/site';
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>
+        <GoogleAds />
         <MetaPixel />
         <JsonLd data={localBusinessJsonLd()} />
         <Nav />
