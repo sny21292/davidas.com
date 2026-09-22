@@ -2,6 +2,12 @@
 
 import { useState } from 'react';
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 // Ported from main.js contact-form handler → posts to /api/contact.
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
@@ -15,6 +21,15 @@ export default function ContactForm() {
       const res = await fetch('/api/contact', { method: 'POST', body: new FormData(form) });
       const data = await res.json();
       if (data.success) {
+        // Google Ads "Submit lead form" conversion — fired only on a genuine
+        // success (not on page load, and not when the submit fails).
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          window.gtag('event', 'conversion', {
+            send_to: 'AW-18463656796/2_d5CLPao4EdENyWlORE',
+            value: 1.0,
+            currency: 'USD',
+          });
+        }
         setSent(true);
       } else {
         alert(data.message);
