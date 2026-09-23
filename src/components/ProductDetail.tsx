@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useCallback, useEffect } from 'react';
 import Img from '@/components/Img';
+import { trackLeadConversion } from '@/lib/trackConversion';
 import type { Product } from '@/data/products';
 
 const DEFAULT_HINT = 'Metal, Karat & Color, and if you have stones or stone choice';
@@ -70,6 +71,7 @@ export default function ProductDetail({
       const res = await fetch('/api/inquiry', { method: 'POST', body: new FormData(form) });
       const data = await res.json();
       if (data.success) {
+        trackLeadConversion();
         setStatus('sent');
         setTimeout(() => {
           setStatus('idle');

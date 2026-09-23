@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useCallback, useEffect } from 'react';
 import type { ShowcaseItem } from '@/data/showcase';
 import ShowcaseGallery from '@/components/ShowcaseGallery';
+import { trackLeadConversion } from '@/lib/trackConversion';
 
 const VELVET_GREEN = '/images/showcase/green-velvet.png';
 
@@ -47,6 +48,7 @@ export default function ShowcaseProductDetail({ item }: { item: ShowcaseItem }) 
       const res = await fetch('/api/showcase-inquiry', { method: 'POST', body: new FormData(form) });
       const data = await res.json();
       if (data.success) {
+        trackLeadConversion();
         setStatus('sent');
         setTimeout(() => { setStatus('idle'); form.reset(); closeInquiry(); }, 2500);
       } else {
