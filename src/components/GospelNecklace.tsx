@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Img from '@/components/Img';
+import { trackLeadConversion } from '@/lib/trackConversion';
 
 // Ported from gospel-necklace.html + js/gospel.js
 const PAYPAL_ME_URL = 'http://www.paypal.me/davidasdesign';
@@ -66,6 +67,7 @@ export default function GospelNecklace() {
       const res = await fetch('/api/order', { method: 'POST', body: formData });
       const data = await res.json();
       if (data.success) {
+        trackLeadConversion();
         showStatus('Order submitted successfully! Your details have been sent.', 'success');
       } else {
         showStatus(
