@@ -2456,19 +2456,19 @@
 .sc-comp__image--cushion .sc-comp__cushion {
   position: absolute;
   z-index: 5;
-  width: 64%;
+  width: 52%;
   left: 50%;
-  bottom: 14%;
+  bottom: 10%;
   transform: translateX(-50%);
   margin-top: 0;
 }
 .sc-comp__image--cushion .sc-comp__img {
   position: absolute;
   z-index: 6;
-  max-width: 33%;
-  max-height: 30%;
+  max-width: 38%;
+  max-height: 35%;
   left: 50%;
-  bottom: 26%;
+  bottom: 22%;
   transform: translateX(-50%);
 }
 
@@ -2552,9 +2552,9 @@
   position: absolute;
   z-index: 5;
   height: auto;
-  width: 62%;
+  width: 48%;
   left: 50%;
-  bottom: 3%;
+  bottom: 8%;
   transform: translateX(-50%);
   margin-top: 0;
 }

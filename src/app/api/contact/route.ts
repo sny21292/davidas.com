@@ -7,6 +7,7 @@ import {
   NOTIFY_EMAIL,
   SITE_NAME,
 } from '@/lib/mailer';
+import { extractAttachments, attachmentEmailHtml } from '@/lib/attachments';
 
 // Port of submit-contact.php
 export async function POST(req: Request) {
@@ -29,6 +30,8 @@ export async function POST(req: Request) {
   if (!isValidEmail(email)) {
     return NextResponse.json({ success: false, message: 'Please enter a valid email address.' });
   }
+
+  const attachments = await extractAttachments(form);
 
   const subject = `New Contact Form Message - ${SITE_NAME}`;
   const body = `
@@ -61,7 +64,7 @@ export async function POST(req: Request) {
 
             <h4>Message</h4>
             <div class='message'>${message}</div>
-
+            ${attachmentEmailHtml(attachments.length)}
             <p style='margin-top:20px; color:#999; font-size:11px;'>
                 Submitted on ${submittedOn()}
             </p>
@@ -70,7 +73,7 @@ export async function POST(req: Request) {
 </body>
 </html>`;
 
-  const result = await sendEmail(NOTIFY_EMAIL, subject, body, email);
+  const result = await sendEmail(NOTIFY_EMAIL, subject, body, email, attachments);
   if (result.success) {
     return NextResponse.json({ success: true, message: 'Message sent successfully!' });
   }

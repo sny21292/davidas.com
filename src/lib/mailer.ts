@@ -14,15 +14,20 @@ export const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL || 'davidas.design@yahoo.co
 export const ORDER_NOTIFY_EMAIL =
   process.env.ORDER_NOTIFY_EMAIL || process.env.NOTIFY_EMAIL || 'gospel.necklace@yahoo.com';
 
+export interface EmailAttachment {
+  filename: string;
+  content: Buffer;
+}
+
 export async function sendEmail(
   to: string,
   subject: string,
   html: string,
-  replyTo?: string
+  replyTo?: string,
+  attachments?: EmailAttachment[],
 ): Promise<MailResult> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    // Mirrors PHP behavior when config.php is missing.
     return { success: false, message: 'Mail is not configured on this server.' };
   }
   try {
@@ -33,6 +38,7 @@ export async function sendEmail(
       subject,
       html,
       ...(replyTo ? { replyTo } : {}),
+      ...(attachments?.length ? { attachments } : {}),
     });
     if (error) {
       return { success: false, message: error.message || 'Unknown error' };

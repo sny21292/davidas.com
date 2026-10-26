@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import FileUploadField from '@/components/FileUploadField';
 import { trackLeadConversion } from '@/lib/trackConversion';
 
 // Ported from main.js contact-form handler → posts to /api/contact.
@@ -75,6 +76,7 @@ export default function ContactForm() {
           placeholder="Tell us about your project or question..."
         ></textarea>
       </div>
+      <FileUploadField />
       {/* Honeypot */}
       <div className="hp-field" aria-hidden="true">
         <label htmlFor="hp-website">Website</label>

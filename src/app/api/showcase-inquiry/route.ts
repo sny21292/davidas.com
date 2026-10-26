@@ -7,6 +7,7 @@ import {
   NOTIFY_EMAIL,
   SITE_NAME,
 } from '@/lib/mailer';
+import { extractAttachments, attachmentEmailHtml } from '@/lib/attachments';
 
 // Showcase-specific inquiry. Unlike the catalogue's "Pricing Inquiry" (price on
 // request), showcase pieces already list a price, so this captures the piece,
@@ -37,6 +38,8 @@ export async function POST(req: Request) {
   if (!isValidEmail(email)) {
     return NextResponse.json({ success: false, message: 'Please enter a valid email address.' });
   }
+
+  const attachments = await extractAttachments(form);
 
   // e.g. "Showcase inquiry — 14K Gold Lineman Pendant (610-103-S)"
   const subject = `Showcase inquiry — ${piece || 'Showcase piece'}${style ? ` (${style})` : ''}`;
@@ -93,6 +96,8 @@ export async function POST(req: Request) {
             <div class='message'>${message}</div>`;
   }
 
+  body += attachmentEmailHtml(attachments.length);
+
   body += `
             <p style='margin-top:20px; color:#999; font-size:11px;'>
                 Submitted on ${submittedOn()}
@@ -102,7 +107,7 @@ export async function POST(req: Request) {
 </body>
 </html>`;
 
-  const result = await sendEmail(NOTIFY_EMAIL, subject, body, email);
+  const result = await sendEmail(NOTIFY_EMAIL, subject, body, email, attachments);
   if (result.success) {
     return NextResponse.json({ success: true, message: 'Inquiry sent successfully!' });
   }

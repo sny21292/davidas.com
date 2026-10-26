@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useCallback, useEffect } from 'react';
 import type { ShowcaseItem } from '@/data/showcase';
 import ShowcaseGallery from '@/components/ShowcaseGallery';
+import FileUploadField from '@/components/FileUploadField';
 import { trackLeadConversion } from '@/lib/trackConversion';
 
 const VELVET_GREEN = '/images/showcase/green-velvet.png';
@@ -220,6 +221,7 @@ export default function ShowcaseProductDetail({ item }: { item: ShowcaseItem }) 
                 <label htmlFor="inq-metal">Would you like this in a different metal?</label>
                 <input type="text" id="inq-metal" name="metal" placeholder="Optional" />
               </div>
+              <FileUploadField />
 
               {/* Piece context for the email (piece name + style number). */}
               <input type="hidden" name="piece" value={item.name} />

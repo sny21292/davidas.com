@@ -1002,5 +1002,65 @@
   "/images/showcase/real/initial-pendant/a-flower.png": {
     "w": 1066,
     "h": 1600
+  },
+  "/images/showcase/real/700-111/A.png": {
+    "w": 2160,
+    "h": 2160
+  },
+  "/images/showcase/real/700-111/B.png": {
+    "w": 2160,
+    "h": 2160
+  },
+  "/images/showcase/real/700-111/B-nobg.png": {
+    "w": 2160,
+    "h": 2142
+  },
+  "/images/showcase/real/700-112/A.png": {
+    "w": 2160,
+    "h": 2160
+  },
+  "/images/showcase/real/700-113/A.png": {
+    "w": 2160,
+    "h": 2160
+  },
+  "/images/showcase/real/700-114/A.png": {
+    "w": 789,
+    "h": 838
+  },
+  "/images/showcase/real/700-114/A.jpg": {
+    "w": 817,
+    "h": 838
+  },
+  "/images/showcase/real/700-115/A.png": {
+    "w": 708,
+    "h": 825
+  },
+  "/images/showcase/real/700-115/A.jpg": {
+    "w": 739,
+    "h": 841
+  },
+  "/images/showcase/real/700-116/A.png": {
+    "w": 750,
+    "h": 591
+  },
+  "/images/showcase/real/700-116/A.jpg": {
+    "w": 791,
+    "h": 591
+  },
+  "/images/showcase/real/700-116/B.jpg": {
+    "w": 837,
+    "h": 641
+  },
+  "/images/showcase/real/700-116/C.jpg": {
+    "w": 834,
+    "h": 609
+  },
+  "/images/showcase/real/700-117/A.png": {
+    "w": 362,
+    "h": 398
+  },
+  "/images/showcase/real/700-117/A.jpg": {
+    "w": 784,
+    "h": 1134
   }
 }

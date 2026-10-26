@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useCallback, useEffect } from 'react';
 import Img from '@/components/Img';
+import FileUploadField from '@/components/FileUploadField';
 import { trackLeadConversion } from '@/lib/trackConversion';
 import type { Product } from '@/data/products';
 
@@ -185,6 +186,7 @@ export default function ProductDetail({
                 <p className="inquiry-form__hint">{p.formHint || DEFAULT_HINT}</p>
                 <textarea id="inq-message" name="message" rows={5}></textarea>
               </div>
+              <FileUploadField />
               {/* Honeypot — must stay named "website"; bots that fill it get a fake success. */}
               <div className="hp-field" aria-hidden="true">
                 <label htmlFor="inq-website">Website</label>
