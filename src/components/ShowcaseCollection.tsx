@@ -19,7 +19,7 @@ const CUSHION_IMG = '/images/showcase/props/bust.png';
 
 // Per-piece display prop, keyed on ShowcaseItem.surface.
 const PROP_IMAGES: Record<string, string> = {
-  cushion: '/images/showcase/props/bust.png',
+  cushion: '/images/showcase/props/cushion.png',
   bust: '/images/showcase/props/bust.png',
   'box-ring': '/images/showcase/props/box2.png',
   'long-box': '/images/showcase/props/long-box.png',
@@ -98,7 +98,7 @@ function ShowcaseProduct({
         className="sc-comp__btn"
         aria-label={`View ${item.name}`}
       >
-        <div className={`sc-comp__image sc-comp__image--${item.surface}`}>
+        <div className={`sc-comp__image sc-comp__image--${item.surface} sc-comp__image--piece-${item.style}`}>
           <Img
             src={item.image}
             alt={item.name}

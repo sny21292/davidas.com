@@ -1003,6 +1003,10 @@
     "w": 1066,
     "h": 1600
   },
+  "/images/showcase/real/700-111/hero-nobg-landscape.png": {
+    "w": 644,
+    "h": 288
+  },
   "/images/showcase/real/700-111/A.png": {
     "w": 2160,
     "h": 2160
@@ -1019,9 +1023,17 @@
     "w": 2160,
     "h": 2160
   },
+  "/images/showcase/real/700-112/whale-tail.png": {
+    "w": 1254,
+    "h": 1254
+  },
   "/images/showcase/real/700-113/A.png": {
     "w": 2160,
     "h": 2160
+  },
+  "/images/showcase/real/700-113/dog-duck.png": {
+    "w": 526,
+    "h": 1494
   },
   "/images/showcase/real/700-114/A.png": {
     "w": 789,
@@ -1031,6 +1043,10 @@
     "w": 817,
     "h": 838
   },
+  "/images/showcase/real/700-114/indian-head.png": {
+    "w": 1390,
+    "h": 1132
+  },
   "/images/showcase/real/700-115/A.png": {
     "w": 708,
     "h": 825
@@ -1039,6 +1055,10 @@
     "w": 739,
     "h": 841
   },
+  "/images/showcase/real/700-115/confederate-flag.png": {
+    "w": 1448,
+    "h": 1086
+  },
   "/images/showcase/real/700-116/A.png": {
     "w": 750,
     "h": 591
@@ -1046,6 +1066,10 @@
   "/images/showcase/real/700-116/A.jpg": {
     "w": 791,
     "h": 591
+  },
+  "/images/showcase/real/700-116/sons-confederate.png": {
+    "w": 1536,
+    "h": 1024
   },
   "/images/showcase/real/700-116/B.jpg": {
     "w": 837,
@@ -1062,5 +1086,9 @@
   "/images/showcase/real/700-117/A.jpg": {
     "w": 784,
     "h": 1134
+  },
+  "/images/showcase/real/700-117/great-seal.png": {
+    "w": 1349,
+    "h": 1166
   }
 }

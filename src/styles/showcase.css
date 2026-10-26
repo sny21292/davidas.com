@@ -2465,10 +2465,10 @@
 .sc-comp__image--cushion .sc-comp__img {
   position: absolute;
   z-index: 6;
-  max-width: 38%;
-  max-height: 35%;
+  max-width: 40%;
+  max-height: 45%;
   left: 50%;
-  bottom: 22%;
+  bottom: 30%;
   transform: translateX(-50%);
 }
 
@@ -2530,14 +2530,21 @@
 .sc-comp__image--long-box .sc-comp__img {
   position: absolute;
   z-index: 6;
-  max-width: 75%;
-  max-height: 28%;
+  max-width: 80%;
+  max-height: 30%;
   left: 50%;
-  bottom: 16%;
+  bottom: 17%;
   transform: translateX(-50%);
 }
 .sc-comp__btn:hover .sc-comp__image--long-box .sc-comp__img {
   transform: translateX(-50%) !important;
+}
+/* Estate Hamilton watch (700-111): a touch smaller than the chain so the slim
+   piece still reads without crowding the tray. */
+.sc-comp__image--piece-700-111 .sc-comp__img {
+  max-width: 65%;
+  max-height: 27%;
+  bottom: 22%;
 }
 
 /* ─── Open-box prop (rings in the slot, pendants hanging against the lid) ─── */
