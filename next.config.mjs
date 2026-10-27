@@ -4,13 +4,14 @@ const nextConfig = {
   // Target modern browsers — eliminates legacy polyfills (~11 KiB savings).
   experimental: {
     browsersListForSwc: true,
+    // Admin image uploads go through a Server Action (browser → server →
+    // Supabase Storage), so raise the default 1 MB action body limit. In Next 15
+    // this lives under `experimental` — at the top level it is silently ignored.
+    serverActions: { bodySizeLimit: '10mb' },
   },
   // Ported static prose contains apostrophes/ampersands that trip
   // react/no-unescaped-entities. TypeScript type-checking still runs on build.
   eslint: { ignoreDuringBuilds: true },
-  // Admin image uploads go through a Server Action (browser → server → Supabase
-  // Storage), so raise the default 1 MB action body limit.
-  serverActions: { bodySizeLimit: '10mb' },
   // Imagery is served from /public via the <Img> wrapper (next/image). Serve
   // modern formats (AVIF first, then WebP) for large byte savings on the big PNGs.
   images: {
