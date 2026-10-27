@@ -66,12 +66,15 @@ export async function generateMetadata(
   const { slug } = await params;
   const a = await getArticle(slug);
   if (!a) return { title: 'Article not found' };
-  const title = articleSeoTitle(a);
-  const desc = articleMetaDescription(a);
+  // Prefer the per-article meta fields (editable in the admin); fall back to the
+  // built-in SEO-title map / excerpt logic.
+  const title = a.metaTitle || articleSeoTitle(a);
+  const desc = a.metaDescription || articleMetaDescription(a);
   const path = `/articles/${a.id}`;
   return {
     title,
     description: desc,
+    ...(a.metaKeywords ? { keywords: a.metaKeywords } : {}),
     alternates: { canonical: path },
     openGraph: {
       type: 'article',
@@ -119,9 +122,13 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
           />
         </div>
 
-        {a.image2 && (
-          <div className="article-page__image-end">
-            <Img src={a.image2} alt={a.title} sizes="(max-width: 700px) 100vw, 640px" />
+        {a.image2.length > 0 && (
+          <div className="article-page__gallery">
+            {a.image2.map((src, i) => (
+              <div key={i} className="article-page__gallery-item">
+                <Img src={src} alt={`${a.title} — image ${i + 2}`} sizes="(max-width: 700px) 100vw, 340px" />
+              </div>
+            ))}
           </div>
         )}
 
