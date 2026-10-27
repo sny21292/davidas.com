@@ -15,6 +15,10 @@ async function fetchShowcaseItems(): Promise<ShowcaseItem[]> {
   const { data, error } = await supabase
     .from('showcase_items')
     .select('*')
+    // Most recently added pieces first, so new additions lead the showcase.
+    // case_number + display_order remain the tiebreakers within the same batch
+    // (the original seed rows share one created_at, keeping their curated order).
+    .order('created_at', { ascending: false })
     .order('case_number')
     .order('display_order');
   if (error) throw error;
