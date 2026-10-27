@@ -127,9 +127,16 @@ terminates TLS on 80/443 and reverse-proxies to it. Both survive reboot: `pm2-ro
 is enabled (via `pm2 startup` + `pm2 save`) and so is `nginx`. Certbot holds the
 `davidas.com` cert (covers `davidas.com` + `www.davidas.com`).
 
-Redeploy: `cd /var/www/davidas && git pull && npm ci && npm run build && pm2 restart davidas`.
+Redeploy: `cd /var/www/davidas && git pull && npm ci && rm -rf .next && npm run build && pm2 restart davidas`.
 Because product/article pages are statically generated, **a data-only change still needs a
 rebuild** — editing `products.ts` on the server without `npm run build` changes nothing.
+
+**Always `rm -rf .next` before the build.** Showcase items and articles are fetched from Supabase
+at build time, but Next reuses previously prerendered pages from `.next` when the *source* is
+unchanged — it can't tell the external DB changed. A plain `npm run build` then silently serves
+stale pages (e.g. new showcase rows missing, their routes cached as year-long 404s via
+`x-nextjs-cache: HIT`), even though the local build and Vercel (which always build clean) look
+correct. Clearing `.next` forces a fresh fetch. Vercel is unaffected (fresh container per build).
 
 Useful checks: `pm2 list`, `pm2 logs davidas`, `systemctl status nginx`,
 `tail -f /var/log/nginx/error.log`, `curl -I http://127.0.0.1:3000/` (isolates app vs nginx).
