@@ -4,6 +4,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 import JsonLd from '@/components/JsonLd';
 import ProductDetail from '@/components/ProductDetail';
 import { productJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
+import Link from 'next/link';
 import {
   PRODUCTS,
   getCategory,
@@ -12,6 +13,7 @@ import {
   productPath,
 } from '@/data/products';
 import type { Product } from '@/data/products';
+import { getRelatedArticles } from '@/data/article-product-links';
 
 type Params = { category: string; subcategory: string; slug: string };
 
@@ -99,6 +101,23 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         <div className="jewelry-view">
           <ProductDetail product={p} backHref={`/jewelry/${cat.id}/${sub.id}`} />
         </div>
+
+        {(() => {
+          const articles = getRelatedArticles(p.slug);
+          if (!articles.length) return null;
+          return (
+            <div className="product-related-articles">
+              <h3 className="product-related-articles__title">Learn About Your Gemstones</h3>
+              <div className="product-related-articles__links">
+                {articles.map((a) => (
+                  <Link key={a.slug} href={`/articles/${a.slug}`} className="product-related-articles__link">
+                    {a.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       <JsonLd
