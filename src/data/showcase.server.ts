@@ -49,5 +49,6 @@ async function fetchShowcaseItems(): Promise<ShowcaseItem[]> {
     sketchImage: r.sketch_image ?? '',
     benchImage: r.bench_image ?? '',
     creationVideo: r.creation_video ?? '',
+    updatedAt: r.updated_at ?? r.created_at ?? '',
   }));
 }
