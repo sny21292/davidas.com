@@ -73,7 +73,12 @@ export default async function ProtectedAdminLayout({
           <span className="admin-profile__avatar">{initial}</span>
           <span className="admin-profile__name">{name}</span>
           <span className="admin-profile__email">{user.email}</span>
-          <span className="admin-profile__role">Admin</span>
+          <span className="admin-profile__role">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M5 18L3 7l5 4 4-7 4 7 5-4-2 11H5z" />
+            </svg>
+            Admin
+          </span>
         </div>
 
         <div className="admin-sidebar__navwrap">
