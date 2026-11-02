@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { deleteArticle } from '@/app/admin/actions';
 import DeleteButton from '@/components/admin/DeleteButton';
+import Select from '@/components/admin/Select';
 
 type Row = {
   id: string;
@@ -57,16 +58,17 @@ export default function ArticlesTable({ articles }: { articles: Row[] }) {
           />
         </div>
 
-        <label className="admin-perpage">
+        <span className="admin-perpage">
           Show
-          <select
-            value={perPage}
-            onChange={(e) => { setPerPage(Number(e.target.value)); setPage(1); }}
-          >
-            {PAGE_SIZES.map((n) => <option key={n} value={n}>{n}</option>)}
-          </select>
+          <Select
+            className="admin-select--sm"
+            ariaLabel="Rows per page"
+            value={String(perPage)}
+            onChange={(v) => { setPerPage(Number(v)); setPage(1); }}
+            options={PAGE_SIZES.map((n) => ({ value: String(n), label: String(n) }))}
+          />
           per page
-        </label>
+        </span>
 
         <span className="admin-toolbar__count">
           {filtered.length} {filtered.length === 1 ? 'article' : 'articles'}
