@@ -27,6 +27,7 @@ export interface ShowcaseItem {
   sketchImage: string;
   benchImage: string;
   creationVideo: string;
+  updatedAt: string;     // DB updated_at (falls back to created_at) — sitemap lastmod
 }
 
 export interface ShowcaseCase {
