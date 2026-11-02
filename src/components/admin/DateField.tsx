@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Select from './Select';
 
 const MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -70,15 +71,17 @@ export default function DateField({
     <label className="admin-field">
       <span>{label}</span>
       <div className="admin-datefield">
-        <select
-          className="admin-datefield__mode"
+        <Select
+          className="admin-select--mode"
+          ariaLabel="Date format"
           value={mode}
-          onChange={(e) => setMode(e.target.value as Mode)}
-        >
-          <option value="month">Month &amp; year</option>
-          <option value="date">Exact date</option>
-          <option value="text">Custom text</option>
-        </select>
+          onChange={(v) => setMode(v as Mode)}
+          options={[
+            { value: 'month', label: 'Month & year' },
+            { value: 'date', label: 'Exact date' },
+            { value: 'text', label: 'Custom text' },
+          ]}
+        />
 
         {mode === 'month' && (
           <input type="month" value={monthVal} onChange={(e) => onMonth(e.target.value)} />

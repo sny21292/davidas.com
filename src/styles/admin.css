@@ -347,6 +347,18 @@
 .admin-combo__opt--add { color: var(--a-green-accent); font-weight: 600; border-top: 1px solid var(--a-border); margin-top: 3px; }
 .admin-combo__opt--add.active { background: var(--a-green-soft); }
 
+/* ============ THEMED SELECT (shares combobox look; no native <select> popup) ============ */
+.admin-select { display: inline-block; }
+.admin-select--mode { width: 150px; }
+.admin-select--sm { width: 74px; }
+.admin-select__control {
+  width: 100%; justify-content: space-between; gap: 4px;
+  cursor: pointer; text-align: left; font: inherit; color: var(--a-text);
+}
+.admin-select__control:focus-visible { outline: 2px solid var(--a-green-accent); outline-offset: 2px; }
+.admin-select__value { flex: 1; padding: 9px 0 9px 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-combo__opt.selected { font-weight: 600; color: var(--a-green-accent); }
+
 /* ============ DATE FIELD ============ */
 .admin-datefield { display: flex; gap: 8px; flex-wrap: wrap; }
 .admin-datefield__mode { max-width: 150px; }
