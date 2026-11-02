@@ -762,6 +762,44 @@ a:hover {
   color: var(--color-text);
 }
 
+/* Related gemstone articles on product pages */
+.product-related-articles {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.product-related-articles__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0 0 var(--space-sm);
+}
+
+.product-related-articles__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.product-related-articles__link {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 3px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.product-related-articles__link:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
 /* ===== INQUIRY MODAL ===== */
 
 .modal-overlay {

@@ -8,6 +8,7 @@ import { articleJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
 import { articleOgImage } from '@/lib/articles';
 import type { Article } from '@/lib/articles';
 import { getArticles, getArticle } from '@/lib/articles.server';
+import { getRelatedProducts } from '@/data/article-product-links';
 
 type Params = { slug: string };
 
@@ -131,6 +132,23 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
             ))}
           </div>
         )}
+
+        {(() => {
+          const related = getRelatedProducts(a.id);
+          if (!related.length) return null;
+          return (
+            <div className="article-page__related">
+              <h3 className="article-page__related-title">Shop Related Jewelry</h3>
+              <div className="article-page__related-links">
+                {related.map((p) => (
+                  <Link key={p.path} href={p.path} className="article-page__related-link">
+                    {p.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
 
         <div className="article-page__footer">
           <Link href="/gems-gemology" className="btn btn--outline">

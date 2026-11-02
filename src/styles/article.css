@@ -136,6 +136,46 @@
   display: block;
 }
 
+/* Related jewelry links at the end of an article */
+.article-page__related {
+  clear: both;
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface, transparent);
+}
+
+.article-page__related-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0 0 var(--space-sm);
+}
+
+.article-page__related-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.article-page__related-link {
+  display: inline-block;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 3px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.article-page__related-link:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
 .article-page__footer {
   margin-top: var(--space-lg);
   padding-top: var(--space-md);
